@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/sirion/perception/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--
+      Cache control: force the browser to re-fetch index.html on every visit.
+      Critical because every Vite build emits new chunk hashes
+      (PerceptionMonitor-BH1wGx69.js → PerceptionMonitor-DjTsudeJ.js etc).
+      A stale index.html references chunks that no longer exist → 404 →
+      "Failed to fetch dynamically imported module" error in the SPA.
+      GitHub Pages doesn't honour _headers files (that's Netlify/Cloudflare),
+      so we set this client-side via meta http-equiv. The hashed assets in
+      /assets/ are still cacheable by the browser's default rules — only
+      this index.html is never cached.
+    -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <title>Xtrusio · Shape How AI Sees Your Brand</title>
+    <script type="module" crossorigin src="/sirion/perception/assets/index-DPfaMfM7.js"></script>
+    <link rel="stylesheet" crossorigin href="/sirion/perception/assets/index-DjcRe9hm.css">
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>

@@ -1,0 +1,1236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sirion — Perception Re-Audit: Feb vs Apr 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,500&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#FAFAF9;--bg-alt:#F5F5F4;--text:#1C1917;--text-muted:#78716C;--accent:#1C1917;--gold:#B8860B;--gold-light:#D4A82E;--success:#16A34A;--danger:#DC2626;--warning:#F59E0B;--blue:#2563EB;--purple:#7C3AED;--border:#E7E5E4;--font-display:'Playfair Display',Georgia,serif;--font-body:'DM Sans',-apple-system,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+body{font-family:var(--font-body);background:var(--bg);color:var(--text);line-height:1.6;font-size:15px}
+.sidebar{width:280px;background:#fff;border-right:1px solid var(--border);padding:32px 24px;position:fixed;height:100vh;overflow-y:auto;z-index:100}
+.sidebar-brand{display:flex;align-items:center;gap:12px;margin-bottom:8px}
+.sidebar-brand-icon{width:36px;height:36px;background:var(--accent);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--font-display);font-weight:700;font-size:18px}
+.sidebar-brand-text h1{font-family:var(--font-body);font-size:16px;font-weight:600}
+.sidebar-brand-text span{font-size:12px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em}
+.sidebar-nav{margin-top:32px}
+.sidebar-nav-label{font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--text-muted);margin-bottom:16px;font-weight:500}
+.sidebar-nav-list{list-style:none}
+.sidebar-nav-item{margin-bottom:4px}
+.sidebar-nav-link{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:8px;text-decoration:none;color:var(--text);font-size:13px;font-weight:500;transition:all .2s;cursor:pointer}
+.sidebar-nav-link:hover{background:var(--bg-alt)}
+.sidebar-nav-link.active{background:var(--bg-alt)}
+.sidebar-nav-number{width:24px;height:24px;background:var(--bg-alt);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:var(--text-muted)}
+.sidebar-nav-link.active .sidebar-nav-number{background:var(--accent);color:#fff}
+.sidebar-footer{margin-top:auto;padding-top:24px;border-top:1px solid var(--border);font-size:11px;color:var(--text-muted)}
+.main{margin-left:280px;display:flex;flex-direction:column;align-items:center}
+.page{display:none;width:100%}.page.active{display:block}
+.section{padding:56px 48px;max-width:940px;width:100%;margin:0 auto;border-bottom:1px solid var(--border)}
+.section:last-child{border-bottom:none}
+.section-tag{display:inline-block;font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--text-muted);padding:6px 14px;background:var(--bg-alt);border-radius:100px;margin-bottom:20px}
+.section-title{font-family:var(--font-display);font-size:clamp(28px,4vw,40px);font-weight:700;line-height:1.15;letter-spacing:-.02em;margin-bottom:8px}
+.section-title span{color:var(--gold)}
+.section-title em{color:var(--danger);font-style:italic}
+.section-subtitle{font-family:var(--font-display);font-size:clamp(18px,2.5vw,24px);font-style:italic;font-weight:400;color:var(--text-muted);margin-bottom:28px}
+.section-text{font-size:15px;line-height:1.75;color:var(--text);max-width:700px;margin-bottom:20px}
+.section-text strong{font-weight:600;text-decoration:underline;text-decoration-color:var(--gold);text-underline-offset:3px}
+.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:20px;padding:28px 0;margin:28px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.stat-item{text-align:center}
+.stat-value{font-family:var(--font-display);font-size:38px;font-weight:700;line-height:1;margin-bottom:4px}
+.stat-value.win{color:var(--success)}.stat-value.lose{color:var(--danger)}.stat-value.warn{color:var(--warning)}
+.stat-label{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--text-muted)}
+.card{background:#fff;border-radius:14px;padding:28px;margin:20px 0;box-shadow:0 1px 3px rgba(0,0,0,.04);border:1px solid var(--border)}
+.card-gold{border-left:4px solid var(--gold)}
+.insight-box{background:linear-gradient(135deg,rgba(184,134,11,.08) 0%,rgba(184,134,11,.02) 100%);border-left:4px solid var(--gold);padding:24px 28px;border-radius:0 12px 12px 0;margin:28px 0}
+.insight-box p{font-size:15px;line-height:1.7;margin:0}
+.insight-box strong{color:var(--text)}
+.alert{padding:20px 24px;border-radius:12px;margin:20px 0;font-size:14px;line-height:1.6}
+.alert-danger{background:rgba(220,38,38,.06);border:1px solid rgba(220,38,38,.15)}
+.alert-success{background:rgba(22,163,74,.06);border:1px solid rgba(22,163,74,.15)}
+.alert-warning{background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.15)}
+.alert-label{font-size:11px;text-transform:uppercase;letter-spacing:.12em;font-weight:600;margin-bottom:6px}
+.alert-danger .alert-label{color:var(--danger)}.alert-success .alert-label{color:var(--success)}.alert-warning .alert-label{color:var(--warning)}
+.data-table{width:100%;border-collapse:collapse;margin:20px 0;font-size:13px}
+.data-table th{background:var(--accent);color:#fff;padding:12px 14px;text-align:left;font-weight:600;font-size:11px;letter-spacing:.05em}
+.data-table th:first-child{border-radius:10px 0 0 0}.data-table th:last-child{border-radius:0 10px 0 0}
+.data-table td{padding:12px 14px;border-bottom:1px solid var(--border);vertical-align:top}
+.data-table tr:hover{background:var(--bg-alt)}
+.data-table .url-cell{font-size:12px;word-break:break-all;max-width:320px}
+.data-table .url-cell a{color:var(--blue);text-decoration:none}.data-table .url-cell a:hover{text-decoration:underline}
+.tag{display:inline-flex;align-items:center;padding:3px 10px;border-radius:100px;font-size:10px;font-weight:600;white-space:nowrap}
+.tag-danger{background:rgba(220,38,38,.1);color:var(--danger)}
+.tag-success{background:rgba(22,163,74,.1);color:var(--success)}
+.tag-warning{background:rgba(245,158,11,.1);color:var(--warning)}
+.tag-blue{background:rgba(37,99,235,.1);color:var(--blue)}
+.tag-muted{background:var(--bg-alt);color:var(--text-muted)}
+.delta-pos{color:var(--success);font-weight:600}.delta-neg{color:var(--danger);font-weight:600}.delta-zero{color:var(--danger);font-weight:600}
+.collapse-btn{width:100%;text-align:left;background:none;border:none;padding:0;cursor:pointer;font-family:var(--font-body);color:var(--text)}
+.collapse-btn .arr{display:inline-block;transition:transform .2s;margin-right:8px;font-size:12px}
+.collapse-btn.open .arr{transform:rotate(90deg)}
+.collapse-body{display:none;padding:16px 0 0}
+.collapse-body.open{display:block}
+.model-card{background:#fff;border-radius:14px;padding:0;margin:20px 0;box-shadow:0 1px 3px rgba(0,0,0,.04);border:1px solid var(--border);overflow:hidden}
+.model-header{padding:24px 28px;cursor:pointer;transition:background .15s}
+.model-header:hover{background:var(--bg-alt)}
+.model-header h3{font-family:var(--font-display);font-size:20px;font-weight:600;margin:0 0 4px}
+.model-meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.model-detail{padding:0 28px 28px;border-top:1px solid var(--border)}
+.snippet-row{padding:16px 0;border-bottom:1px solid var(--border)}
+.snippet-row:last-child{border-bottom:none}
+.snippet-url{font-size:12px;word-break:break-all;margin-bottom:8px}
+.snippet-url a{color:var(--blue);text-decoration:none}.snippet-url a:hover{text-decoration:underline}
+.snippet-text{font-size:13px;color:var(--text);line-height:1.7;padding:10px 14px;background:var(--bg-alt);border-radius:8px;margin:6px 0;border-left:3px solid var(--border)}
+.snippet-signal{font-size:11px;margin-top:6px}
+.ranking-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;margin:28px 0}
+.rank-card{background:#fff;border-radius:14px;padding:24px 20px;text-align:center;border:1px solid var(--border);box-shadow:0 1px 3px rgba(0,0,0,.04);position:relative}
+.rank-card .rank-num{font-family:var(--font-display);font-size:48px;font-weight:700;line-height:1;margin-bottom:6px}
+.rank-card .rank-model{font-size:14px;font-weight:600;margin-bottom:4px}
+.rank-card .rank-label{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--text-muted)}
+.rank-card.best{border-color:var(--success)}.rank-card.worst{border-color:var(--danger)}
+.nav-toggle{display:none;position:fixed;top:12px;left:12px;z-index:200;background:#fff;border:1px solid var(--border);border-radius:8px;padding:8px 12px;font-size:16px;cursor:pointer}
+@media(max-width:900px){.nav-toggle{display:block}.sidebar{transform:translateX(-100%);transition:transform .25s;z-index:300}.sidebar.open{transform:translateX(0)}.main{margin-left:0}.section{padding:60px 20px}}
+</style>
+</head>
+<body>
+<button class="nav-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰</button>
+<div class="sidebar">
+<div class="sidebar-brand"><div class="sidebar-brand-icon">X</div><div class="sidebar-brand-text"><h1>Sirion Re-Audit</h1><span>Feb → Apr 2026</span></div></div>
+<nav class="sidebar-nav">
+<div class="sidebar-nav-label">Report Sections</div>
+<ul class="sidebar-nav-list">
+<li class="sidebar-nav-item"><a class="sidebar-nav-link active" onclick="go('overview',this)"><span class="sidebar-nav-number">01</span>Executive Summary</a></li>
+<li class="sidebar-nav-item"><a class="sidebar-nav-link" onclick="go('sirion',this)"><span class="sidebar-nav-number">02</span>Sirion-Owned URLs</a></li>
+<li class="sidebar-nav-item"><a class="sidebar-nav-link" onclick="go('thirdparty',this)"><span class="sidebar-nav-number">03</span>Third-Party Sources</a></li>
+<li class="sidebar-nav-item"><a class="sidebar-nav-link" onclick="go('newpages',this)"><span class="sidebar-nav-number">04</span>New Pages Since Feb</a></li>
+<li class="sidebar-nav-item"><a class="sidebar-nav-link" onclick="go('aitest',this)"><span class="sidebar-nav-number">05</span>AI Perception Test</a></li>
+<li class="sidebar-nav-item"><a class="sidebar-nav-link" onclick="go('shift',this)"><span class="sidebar-nav-number">06</span>Perception Shift</a></li>
+<li class="sidebar-nav-item"><a class="sidebar-nav-link" onclick="go('verdict',this)"><span class="sidebar-nav-number">07</span>Verdict & Next Steps</a></li>
+</ul>
+<div class="sidebar-nav-label" style="margin-top:20px">5-Model AI Perception</div>
+<ul class="sidebar-nav-list">
+<li class="sidebar-nav-item"><a class="sidebar-nav-link" onclick="go('airank',this)"><span class="sidebar-nav-number">08</span>Model Ranking</a></li>
+<li class="sidebar-nav-item"><a class="sidebar-nav-link" onclick="go('chatgpt',this)"><span class="sidebar-nav-number">09</span>ChatGPT Evidence</a></li>
+<li class="sidebar-nav-item"><a class="sidebar-nav-link" onclick="go('gemini',this)"><span class="sidebar-nav-number">10</span>Gemini Evidence</a></li>
+<li class="sidebar-nav-item"><a class="sidebar-nav-link" onclick="go('claude',this)"><span class="sidebar-nav-number">11</span>Claude Evidence</a></li>
+<li class="sidebar-nav-item"><a class="sidebar-nav-link" onclick="go('perplexity',this)"><span class="sidebar-nav-number">12</span>Perplexity Evidence</a></li>
+<li class="sidebar-nav-item"><a class="sidebar-nav-link" onclick="go('grok',this)"><span class="sidebar-nav-number">13</span>Grok Evidence</a></li>
+</ul>
+</nav>
+<div class="sidebar-footer">Xtrusio · AI Positioning<br>gaurav.imapro.in · April 2026</div>
+</div>
+<div class="main">
+
+<!-- ===== 01 OVERVIEW ===== -->
+<div class="page active" id="pg-overview">
+<div class="section">
+<div class="section-tag">Perception Re-Audit · Executive Summary</div>
+<h2 class="section-title">Feb 22 → Apr 8, 2026: Has Sirion's <em>Post-Signature Bias</em> Shifted?</h2>
+<p class="section-subtitle">45-day delta analysis across 35 URLs, 4 new third-party sources, and live AI model testing.</p>
+
+<div class="stats-row">
+<div class="stat-item"><div class="stat-value lose">0</div><div class="stat-label">Critical Pages Rewritten</div></div>
+<div class="stat-item"><div class="stat-value lose">9</div><div class="stat-label">Post-Sig Pages Unchanged</div></div>
+<div class="stat-item"><div class="stat-value warn">+5</div><div class="stat-label">New Pages (Mixed)</div></div>
+<div class="stat-item"><div class="stat-value lose">+4</div><div class="stat-label">New Negative 3rd Party</div></div>
+<div class="stat-item"><div class="stat-value lose">~2%</div><div class="stat-label">Perception Shift</div></div>
+</div>
+
+<div class="alert alert-danger">
+<div class="alert-label">Bottom Line</div>
+<p><strong>Negligible perception shift in 45 days.</strong> Every critical Sirion-owned page still carries identical post-signature language from the February baseline. The advisory was delivered. The content rewrites were not executed. Meanwhile, the market produced 4 new third-party sources reinforcing the post-sig narrative.</p>
+</div>
+
+<div class="insight-box">
+<p><strong>What this means for the engagement:</strong> This re-audit validates two things simultaneously. First, the February diagnosis was correct — the problem is structural and self-inflicted. Second, perception does not shift without executing content changes. The 45-day gap between audit and re-audit is a control period proving that organic drift does not solve this problem.</p>
+</div>
+</div>
+</div>
+
+<!-- ===== 02 SIRION OWNED ===== -->
+<div class="page" id="pg-sirion">
+<div class="section">
+<div class="section-tag">Sirion-Owned Content · 9 Critical URLs</div>
+<h2 class="section-title">Every Critical Page: <em>Zero Language Changes in 45 Days</em></h2>
+<p class="section-subtitle">The 9 highest-impact Sirion pages from the February audit — all verified live April 8, 2026, all unchanged.</p>
+
+<table class="data-table">
+<thead><tr><th>#</th><th>Full URL</th><th>Feb 2026</th><th>Apr 2026</th><th>Changed?</th></tr></thead>
+<tbody>
+<tr>
+<td>1</td>
+<td class="url-cell"><a href="https://www.sirion.ai/library/contract-management/contract-efficiency/" target="_blank">https://www.sirion.ai/library/contract-management/contract-efficiency/</a></td>
+<td><span class="tag tag-danger">Post-Sig Critical</span></td>
+<td><span class="tag tag-danger">Post-Sig Critical</span></td>
+<td><span class="tag tag-danger">NO CHANGE</span></td>
+</tr>
+<tr>
+<td>2</td>
+<td class="url-cell"><a href="https://www.sirion.ai/library/contract-insights/post-signature-clm-dashboard-gartner-kpis/" target="_blank">https://www.sirion.ai/library/contract-insights/post-signature-clm-dashboard-gartner-kpis/</a></td>
+<td><span class="tag tag-danger">Post-Sig Critical</span></td>
+<td><span class="tag tag-danger">Post-Sig Critical</span></td>
+<td><span class="tag tag-danger">NO CHANGE</span></td>
+</tr>
+<tr>
+<td>3</td>
+<td class="url-cell"><a href="https://www.sirion.ai/library/contract-insights/build-value-leakage-heatmap/" target="_blank">https://www.sirion.ai/library/contract-insights/build-value-leakage-heatmap/</a></td>
+<td><span class="tag tag-danger">Post-Sig Critical</span></td>
+<td><span class="tag tag-danger">Post-Sig Critical</span></td>
+<td><span class="tag tag-danger">NO CHANGE</span></td>
+</tr>
+<tr>
+<td>4</td>
+<td class="url-cell"><a href="https://www.sirion.ai/library/clm-platform/clm-tools/" target="_blank">https://www.sirion.ai/library/clm-platform/clm-tools/</a></td>
+<td><span class="tag tag-danger">SMOKING GUN</span></td>
+<td><span class="tag tag-danger">SMOKING GUN</span></td>
+<td><span class="tag tag-danger">NO CHANGE</span></td>
+</tr>
+<tr>
+<td>5</td>
+<td class="url-cell"><a href="https://www.sirion.ai/library/contract-obligations/contract-obligation-compliance-management/" target="_blank">https://www.sirion.ai/library/contract-obligations/contract-obligation-compliance-management/</a></td>
+<td><span class="tag tag-danger">Post-Sig Critical</span></td>
+<td><span class="tag tag-danger">Post-Sig Critical</span></td>
+<td><span class="tag tag-danger">NO CHANGE</span></td>
+</tr>
+<tr>
+<td>6</td>
+<td class="url-cell"><a href="https://www.sirion.ai/library/clm-platform/clm-implementation/" target="_blank">https://www.sirion.ai/library/clm-platform/clm-implementation/</a></td>
+<td><span class="tag tag-danger">Post-Sig Reinforcing</span></td>
+<td><span class="tag tag-danger">Post-Sig Reinforcing</span></td>
+<td><span class="tag tag-danger">NO CHANGE</span></td>
+</tr>
+<tr>
+<td>7</td>
+<td class="url-cell"><a href="https://www.sirion.ai/library/contract-management/payer-contract-management/" target="_blank">https://www.sirion.ai/library/contract-management/payer-contract-management/</a></td>
+<td><span class="tag tag-danger">Post-Sig Reinforcing</span></td>
+<td><span class="tag tag-danger">Post-Sig Reinforcing</span></td>
+<td><span class="tag tag-danger">NO CHANGE</span></td>
+</tr>
+<tr>
+<td>8</td>
+<td class="url-cell"><a href="https://www.sirion.ai/library/contracts/contract-monitoring/" target="_blank">https://www.sirion.ai/library/contracts/contract-monitoring/</a></td>
+<td><span class="tag tag-danger">Post-Sig Reinforcing</span></td>
+<td><span class="tag tag-danger">Post-Sig Reinforcing</span></td>
+<td><span class="tag tag-danger">NO CHANGE</span></td>
+</tr>
+<tr>
+<td>9</td>
+<td class="url-cell"><a href="https://www.sirion.ai/library/contract-insights/gartner-leaders-sirion-vs-ironclad-vs-icertis-clm/" target="_blank">https://www.sirion.ai/library/contract-insights/gartner-leaders-sirion-vs-ironclad-vs-icertis-clm/</a></td>
+<td><span class="tag tag-danger">Post-Sig Reinforcing</span></td>
+<td><span class="tag tag-danger">Post-Sig Reinforcing</span></td>
+<td><span class="tag tag-danger">NO CHANGE</span></td>
+</tr>
+</tbody>
+</table>
+
+<h3 style="font-family:var(--font-display);font-size:26px;margin:48px 0 8px;padding-top:36px;border-top:1px solid var(--border)">Exact Text Being Pulled & <span style="color:var(--gold)">Recommended Rewrites</span></h3>
+<p style="color:var(--text-muted);margin-bottom:28px;font-size:14px">For each URL above: the verbatim language AI models are reading (red), and the specific replacement text (green).</p>
+
+<!-- URL 1 -->
+<div class="card" style="border-left:4px solid var(--danger);margin-top:32px">
+<div style="display:flex;justify-content:space-between;align-items:start;flex-wrap:wrap;gap:8px;margin-bottom:16px">
+<span class="tag tag-danger">URL 1 · CRITICAL · NO CHANGE</span>
+<span class="tag tag-muted">Verified Live: Apr 8, 2026</span>
+</div>
+<p style="font-size:13px;word-break:break-all;color:var(--blue);margin-bottom:16px"><a href="https://www.sirion.ai/library/contract-management/contract-efficiency/" target="_blank" style="color:var(--blue)">https://www.sirion.ai/library/contract-management/contract-efficiency/</a></p>
+
+<div class="alert alert-danger" style="margin:12px 0">
+<div class="alert-label">Exact Text Being Pulled by AI</div>
+<p>"While many CLM platforms focus primarily on accelerating pre-signature workflows, <strong>true contract efficiency is determined after the contract is signed</strong> — when obligations must be enforced, value protected, and risk actively governed. This is where Sirion differentiates itself."</p>
+<p style="margin-top:8px">"<strong>Sirion is purpose-built for post-signature execution at enterprise scale.</strong> It transforms contracts from static documents into continuously governed business assets."</p>
+<p style="margin-top:8px">"<strong>Mapping obligations, service levels, pricing mechanisms, and renewal terms</strong>"</p>
+<p style="margin-top:8px">"<strong>Continuously monitoring post-signature performance</strong> and compliance instead of relying on periodic audits"</p>
+</div>
+
+<div class="alert alert-success" style="margin:12px 0">
+<div class="alert-label">Recommended Rewrite</div>
+<p>Remove the opening "true contract efficiency is determined after the contract is signed" framing entirely. Replace with:</p>
+<p style="margin-top:8px"><strong>"Contract efficiency spans the entire lifecycle — from accelerating authoring and negotiation cycles to enforcing obligations and extracting value post-signature. Sirion is built to optimize every stage at enterprise scale."</strong></p>
+<p style="margin-top:8px">Keep the post-signature detail paragraphs, but move them below a new opening section on pre-signature efficiency (AI-assisted drafting, playbook compliance, redlining speed). The page should lead with full-lifecycle, not dismiss pre-signature as secondary.</p>
+</div>
+</div>
+
+<!-- URL 2 -->
+<div class="card" style="border-left:4px solid var(--danger)">
+<div style="display:flex;justify-content:space-between;align-items:start;flex-wrap:wrap;gap:8px;margin-bottom:16px">
+<span class="tag tag-danger">URL 2 · CRITICAL · NO CHANGE</span>
+<span class="tag tag-muted">Verified Live: Apr 8, 2026</span>
+</div>
+<p style="font-size:13px;word-break:break-all;color:var(--blue);margin-bottom:16px"><a href="https://www.sirion.ai/library/contract-insights/post-signature-clm-dashboard-gartner-kpis/" target="_blank" style="color:var(--blue)">https://www.sirion.ai/library/contract-insights/post-signature-clm-dashboard-gartner-kpis/</a></p>
+
+<div class="alert alert-danger" style="margin:12px 0">
+<div class="alert-label">Exact Text Being Pulled by AI</div>
+<p>"<strong>Post-signature contract management represents the largest untapped opportunity</strong> for value creation in most enterprises."</p>
+<p style="margin-top:8px">"Post-signature contract management separates industry leaders from laggards. <strong>While most organizations focus heavily on pre-signature activities like drafting and negotiation, the real value extraction happens after contracts are signed</strong>"</p>
+<p style="margin-top:8px">"<strong>post-signature CLM centers on value extraction through obligation tracking</strong>"</p>
+<p style="margin-top:8px">Title itself: "<strong>Building a Post-Signature CLM Dashboard: 12 KPIs Gartner Leaders Track</strong>"</p>
+</div>
+
+<div class="alert alert-success" style="margin:12px 0">
+<div class="alert-label">Recommended Rewrite</div>
+<p>Rename title to: <strong>"Building a CLM Performance Dashboard: 12 KPIs Gartner Leaders Track Across the Contract Lifecycle"</strong></p>
+<p style="margin-top:8px">Remove the framing that dismisses pre-signature as less important. Replace opening with: "High-performing CLM organizations track KPIs across every lifecycle stage — from authoring speed and negotiation cycle time to obligation compliance and value realization." Then present the 12 KPIs as spanning the full lifecycle, not exclusively post-signature.</p>
+</div>
+</div>
+
+<!-- URL 3 -->
+<div class="card" style="border-left:4px solid var(--danger)">
+<div style="display:flex;justify-content:space-between;align-items:start;flex-wrap:wrap;gap:8px;margin-bottom:16px">
+<span class="tag tag-danger">URL 3 · CRITICAL · NO CHANGE</span>
+<span class="tag tag-muted">Verified Live: Apr 8, 2026</span>
+</div>
+<p style="font-size:13px;word-break:break-all;color:var(--blue);margin-bottom:16px"><a href="https://www.sirion.ai/library/contract-insights/build-value-leakage-heatmap/" target="_blank" style="color:var(--blue)">https://www.sirion.ai/library/contract-insights/build-value-leakage-heatmap/</a></p>
+
+<div class="alert alert-danger" style="margin:12px 0">
+<div class="alert-label">Exact Text Being Pulled by AI</div>
+<p>Title: "<strong>Recover 9% Post-Signature Loss</strong>"</p>
+<p style="margin-top:8px">"<strong>Obligation Management Failures: Missed service level agreements</strong>"</p>
+<p style="margin-top:8px">"<strong>post-signature oversight as an afterthought</strong>"</p>
+</div>
+
+<div class="alert alert-success" style="margin:12px 0">
+<div class="alert-label">Recommended Rewrite</div>
+<p>Rename title to: <strong>"How to Recover 9% Contract Value Leakage Across the Lifecycle"</strong></p>
+<p style="margin-top:8px">Reframe leakage as a full-lifecycle problem: value is lost in slow authoring (delayed revenue), poor negotiation (unfavorable terms), AND missed post-signature obligations. Position Sirion as addressing all three, not just the last one.</p>
+</div>
+</div>
+
+<!-- URL 4 — SMOKING GUN -->
+<div class="card" style="border-left:4px solid var(--danger);border:2px solid var(--danger)">
+<div style="display:flex;justify-content:space-between;align-items:start;flex-wrap:wrap;gap:8px;margin-bottom:16px">
+<span class="tag tag-danger" style="font-size:12px">URL 4 · SMOKING GUN · NO CHANGE</span>
+<span class="tag tag-muted">Verified Live: Apr 8, 2026</span>
+</div>
+<p style="font-size:13px;word-break:break-all;color:var(--blue);margin-bottom:16px"><a href="https://www.sirion.ai/library/clm-platform/clm-tools/" target="_blank" style="color:var(--blue)">https://www.sirion.ai/library/clm-platform/clm-tools/</a></p>
+
+<div class="alert alert-danger" style="margin:12px 0">
+<div class="alert-label">Exact Text Being Pulled by AI — The Single Most Damaging Page</div>
+<p>Sirion describes <strong>itself</strong> as:</p>
+<p style="margin-top:4px;padding:12px 16px;background:rgba(220,38,38,.08);border-radius:8px;font-size:15px">"Sirion is an <strong>AI-native enterprise CLM platform</strong> built for large organizations managing complex buy-side and sell-side contracts. Key Features: <strong>Conversational drafting, obligation tracking</strong>"</p>
+<p style="margin-top:12px">Sirion describes <strong>Icertis</strong> as:</p>
+<p style="margin-top:4px;padding:12px 16px;background:rgba(220,38,38,.08);border-radius:8px;font-size:15px">"Icertis is a <strong>governance-driven CLM platform designed for global enterprises</strong> with compliance-heavy contract portfolios. Key Features: <strong>Compliance automation, enterprise reporting</strong>"</p>
+<p style="margin-top:12px;font-weight:600;color:var(--danger)">Sirion hands Icertis the "governance" label while boxing itself into "obligation tracking." AI models read this comparison and conclude: Icertis = strategic governance leader, Sirion = operational obligation tracker.</p>
+</div>
+
+<div class="alert alert-success" style="margin:12px 0">
+<div class="alert-label">Recommended Rewrite — Highest Priority</div>
+<p>Change Sirion's self-description to:</p>
+<p style="margin-top:4px;padding:12px 16px;background:rgba(22,163,74,.08);border-radius:8px;font-size:15px">"Sirion is an <strong>AI-native full-lifecycle CLM platform</strong> built for enterprises that need intelligent contract governance from authoring through performance. Key Features: <strong>AI-assisted drafting and negotiation, contract governance and compliance, obligation intelligence, performance analytics</strong>"</p>
+<p style="margin-top:12px">Change Icertis description to neutral/factual — do NOT give them the "governance-driven" positioning:</p>
+<p style="margin-top:4px;padding:12px 16px;background:rgba(22,163,74,.08);border-radius:8px;font-size:15px">"Icertis is an <strong>enterprise CLM platform</strong> focused on large-scale contract management with compliance automation. Key Features: <strong>Compliance automation, enterprise reporting</strong>"</p>
+<p style="margin-top:12px;font-weight:600;color:var(--success)">This single edit may have more impact on AI perception than any other action in the engagement.</p>
+</div>
+</div>
+
+<!-- URL 5 -->
+<div class="card" style="border-left:4px solid var(--danger)">
+<div style="display:flex;justify-content:space-between;align-items:start;flex-wrap:wrap;gap:8px;margin-bottom:16px">
+<span class="tag tag-danger">URL 5 · CRITICAL · NO CHANGE</span>
+<span class="tag tag-muted">Verified Live: Apr 8, 2026</span>
+</div>
+<p style="font-size:13px;word-break:break-all;color:var(--blue);margin-bottom:16px"><a href="https://www.sirion.ai/library/contract-obligations/contract-obligation-compliance-management/" target="_blank" style="color:var(--blue)">https://www.sirion.ai/library/contract-obligations/contract-obligation-compliance-management/</a></p>
+
+<div class="alert alert-danger" style="margin:12px 0">
+<div class="alert-label">Exact Text Being Pulled by AI</div>
+<p>"Sirion's AI-native platform goes beyond obligation tracking"</p>
+<p style="margin-top:8px">"continuously monitor <strong>post-signature performance</strong>"</p>
+<p style="margin-top:8px">"transforming obligation compliance from a <strong>reactive process into a proactive discipline</strong>"</p>
+</div>
+
+<div class="alert alert-success" style="margin:12px 0">
+<div class="alert-label">Recommended Rewrite</div>
+<p>Reframe the opening to position obligation management as one capability within a full-lifecycle platform: <strong>"Sirion's AI-native platform delivers intelligent governance across the entire contract lifecycle — from authoring and negotiation through obligation tracking and performance optimization."</strong></p>
+<p style="margin-top:8px">Keep the obligation content but remove the "goes beyond obligation tracking" framing, which inadvertently reinforces that obligation tracking is Sirion's core identity.</p>
+</div>
+</div>
+
+<!-- URL 6 -->
+<div class="card" style="border-left:4px solid var(--warning)">
+<div style="display:flex;justify-content:space-between;align-items:start;flex-wrap:wrap;gap:8px;margin-bottom:16px">
+<span class="tag tag-warning">URL 6 · HIGH · NO CHANGE</span>
+<span class="tag tag-muted">Verified Live: Apr 8, 2026</span>
+</div>
+<p style="font-size:13px;word-break:break-all;color:var(--blue);margin-bottom:16px"><a href="https://www.sirion.ai/library/clm-platform/clm-implementation/" target="_blank" style="color:var(--blue)">https://www.sirion.ai/library/clm-platform/clm-implementation/</a></p>
+
+<div class="alert alert-danger" style="margin:12px 0">
+<div class="alert-label">Exact Text Being Pulled by AI</div>
+<p>"prioritize solutions that support <strong>post-signature performance tracking</strong>"</p>
+<p style="margin-top:8px">"End-to-End Visibility: <strong>Post-signature analytics</strong> and dashboards track compliance, renewals, and performance"</p>
+</div>
+
+<div class="alert alert-success" style="margin:12px 0">
+<div class="alert-label">Recommended Rewrite</div>
+<p>Change "prioritize solutions that support post-signature performance tracking" to: <strong>"prioritize solutions that deliver intelligent governance across authoring, negotiation, execution, and performance tracking."</strong></p>
+<p style="margin-top:8px">Change the End-to-End Visibility bullet to lead with pre-signature visibility (template compliance, negotiation analytics) before post-signature analytics.</p>
+</div>
+</div>
+
+<!-- URL 7 -->
+<div class="card" style="border-left:4px solid var(--warning)">
+<div style="display:flex;justify-content:space-between;align-items:start;flex-wrap:wrap;gap:8px;margin-bottom:16px">
+<span class="tag tag-warning">URL 7 · HIGH · NO CHANGE</span>
+<span class="tag tag-muted">Verified Live: Apr 8, 2026</span>
+</div>
+<p style="font-size:13px;word-break:break-all;color:var(--blue);margin-bottom:16px"><a href="https://www.sirion.ai/library/contract-management/payer-contract-management/" target="_blank" style="color:var(--blue)">https://www.sirion.ai/library/contract-management/payer-contract-management/</a></p>
+
+<div class="alert alert-danger" style="margin:12px 0">
+<div class="alert-label">Exact Text Being Pulled by AI</div>
+<p>"Sirion emphasizes <strong>post-signature governance</strong>, where the majority of payer contract value is either realized — or lost."</p>
+</div>
+
+<div class="alert alert-success" style="margin:12px 0">
+<div class="alert-label">Recommended Rewrite</div>
+<p>Change to: <strong>"Sirion delivers end-to-end payer contract intelligence — from standardized authoring and faster provider negotiations to post-signature governance, where the majority of payer contract value is either realized or lost."</strong></p>
+<p style="margin-top:8px">Keeps the post-sig message but wraps it in full-lifecycle framing. AI reads the first sentence structure as the positioning signal.</p>
+</div>
+</div>
+
+<!-- URL 8 -->
+<div class="card" style="border-left:4px solid var(--warning)">
+<div style="display:flex;justify-content:space-between;align-items:start;flex-wrap:wrap;gap:8px;margin-bottom:16px">
+<span class="tag tag-warning">URL 8 · HIGH · NO CHANGE</span>
+<span class="tag tag-muted">Verified Live: Apr 8, 2026</span>
+</div>
+<p style="font-size:13px;word-break:break-all;color:var(--blue);margin-bottom:16px"><a href="https://www.sirion.ai/library/contracts/contract-monitoring/" target="_blank" style="color:var(--blue)">https://www.sirion.ai/library/contracts/contract-monitoring/</a></p>
+
+<div class="alert alert-danger" style="margin:12px 0">
+<div class="alert-label">Exact Text Being Pulled by AI</div>
+<p>"Contract monitoring is a <strong>post-signature function</strong> that focuses specifically on tracking performance, compliance, and key milestones"</p>
+</div>
+
+<div class="alert alert-success" style="margin:12px 0">
+<div class="alert-label">Recommended Rewrite</div>
+<p>Change to: <strong>"Contract monitoring is a critical governance function that spans the active contract lifecycle — tracking performance, compliance, key milestones, and value realization from execution through renewal."</strong></p>
+<p style="margin-top:8px">Remove "post-signature function" label. Monitoring IS post-signature by nature, but labeling it that way reinforces the specialist narrative. Frame it as governance instead.</p>
+</div>
+</div>
+
+<!-- URL 9 -->
+<div class="card" style="border-left:4px solid var(--warning)">
+<div style="display:flex;justify-content:space-between;align-items:start;flex-wrap:wrap;gap:8px;margin-bottom:16px">
+<span class="tag tag-warning">URL 9 · HIGH · NO CHANGE</span>
+<span class="tag tag-muted">Verified Live: Apr 8, 2026</span>
+</div>
+<p style="font-size:13px;word-break:break-all;color:var(--blue);margin-bottom:16px"><a href="https://www.sirion.ai/library/contract-insights/gartner-leaders-sirion-vs-ironclad-vs-icertis-clm/" target="_blank" style="color:var(--blue)">https://www.sirion.ai/library/contract-insights/gartner-leaders-sirion-vs-ironclad-vs-icertis-clm/</a></p>
+
+<div class="alert alert-danger" style="margin:12px 0">
+<div class="alert-label">Exact Text Being Pulled by AI</div>
+<p>"These capabilities position Sirion as particularly strong in <strong>post-signature contract management and optimization</strong>."</p>
+<p style="margin-top:8px">Even when discussing Gartner Leader status across ALL four use cases (including pre-signature 4.19/5), Sirion's own page leads with post-signature as the differentiator.</p>
+</div>
+
+<div class="alert alert-success" style="margin:12px 0">
+<div class="alert-label">Recommended Rewrite</div>
+<p>Change to: <strong>"These capabilities position Sirion as the highest-scoring vendor across all four Gartner use cases — pre-signature (4.19/5), post-signature (4.22/5), full lifecycle (4.20/5), and analytics (4.03/5) — making it the only CLM platform rated #1 across the entire contract lifecycle."</strong></p>
+<p style="margin-top:8px">This is the most powerful counter-narrative sentence Sirion can write. It should be the FIRST thing on this page, not buried after post-sig positioning.</p>
+</div>
+</div>
+
+<!-- POSITIVE NOTE -->
+<div class="card card-gold" style="margin-top:32px">
+<p><strong>Slight positives on Homepage + Platform:</strong> sirion.ai/ now leads with "Agentic CLM powers contracting at every step" and the Store/Create/Manage framing is stronger. sirion.ai/platform/ features Draft Agent and Issue Detection Agent more prominently. These are marginal improvements but are drowned out by the 9 unchanged critical pages above.</p>
+</div>
+
+<div class="insight-box" style="margin-top:24px">
+<p style="font-size:17px"><strong>Summary: 9 specific content edits, each with exact before/after language.</strong></p>
+<p style="margin-top:12px">The pattern across all 9 pages is the same: Sirion's content leads with post-signature as the differentiator, frames pre-signature as secondary, and uses vocabulary ("obligation tracking," "post-signature execution," "post-signature function") that AI models treat as classification labels. The fix is not deleting post-signature content — it's reframing it as one capability within a full-lifecycle platform, and leading every page with governance and full-lifecycle language first.</p>
+</div>
+</div>
+</div>
+<!-- ===== 03 THIRD PARTY ===== -->
+<div class="page" id="pg-thirdparty">
+<div class="section">
+<div class="section-tag">Third-Party Sources · External URLs</div>
+<h2 class="section-title">External Sources: <em>No Changes, 4 New Negatives</em></h2>
+<p class="section-subtitle">Every third-party source from the February baseline — plus new sources that appeared since.</p>
+
+<table class="data-table">
+<thead><tr><th>#</th><th>Full URL</th><th>Type</th><th>Feb 2026</th><th>Apr 2026</th><th>Changed?</th></tr></thead>
+<tbody>
+<tr>
+<td>1</td>
+<td class="url-cell"><a href="https://www.softwarereviews.com/products/sirion-clm?c_id=169" target="_blank">https://www.softwarereviews.com/products/sirion-clm?c_id=169</a></td>
+<td>Review</td>
+<td><span class="tag tag-danger">Post-Sig Critical</span></td>
+<td><span class="tag tag-danger">Post-Sig Critical</span></td>
+<td><span class="tag tag-danger">NO CHANGE</span></td>
+</tr>
+<tr>
+<td>2</td>
+<td class="url-cell"><a href="https://www.gartner.com/reviews/market/contract-life-cycle-management/vendor/sirion/product/sirion-agentic-clm-platform" target="_blank">https://www.gartner.com/reviews/market/contract-life-cycle-management/vendor/sirion/product/sirion-agentic-clm-platform</a></td>
+<td>Review</td>
+<td><span class="tag tag-danger">Post-Sig Lean</span></td>
+<td><span class="tag tag-warning">Slightly Balanced</span></td>
+<td><span class="tag tag-warning">MARGINAL</span></td>
+</tr>
+<tr>
+<td>3</td>
+<td class="url-cell"><a href="https://www.peerspot.com/products/comparisons/icertis_vs_sirionlabs" target="_blank">https://www.peerspot.com/products/comparisons/icertis_vs_sirionlabs</a></td>
+<td>Comparison</td>
+<td><span class="tag tag-danger">Post-Sig</span></td>
+<td><span class="tag tag-danger">Post-Sig</span></td>
+<td><span class="tag tag-danger">NO CHANGE</span></td>
+</tr>
+<tr>
+<td>4</td>
+<td class="url-cell"><a href="https://www.fillhq.com/comparison/icertis-vs-sirionlabs/" target="_blank">https://www.fillhq.com/comparison/icertis-vs-sirionlabs/</a></td>
+<td>Comparison</td>
+<td><span class="tag tag-danger">Post-Sig</span></td>
+<td><span class="tag tag-danger">Post-Sig</span></td>
+<td><span class="tag tag-danger">NO CHANGE</span></td>
+</tr>
+<tr>
+<td>5</td>
+<td class="url-cell"><a href="https://agiloft.com/selecting-a-clm-solution-for-your-organization/" target="_blank">https://agiloft.com/selecting-a-clm-solution-for-your-organization/</a></td>
+<td>Competitor</td>
+<td><span class="tag tag-danger">Post-Sig Critical</span></td>
+<td><span class="tag tag-danger">Post-Sig Critical</span></td>
+<td><span class="tag tag-danger">NO CHANGE</span></td>
+</tr>
+<tr>
+<td>6</td>
+<td class="url-cell"><a href="https://www.pactly.com/blog/best-icertis-alternatives" target="_blank">https://www.pactly.com/blog/best-icertis-alternatives</a></td>
+<td>Comparison</td>
+<td><span class="tag tag-danger">Post-Sig</span></td>
+<td><span class="tag tag-danger">Post-Sig</span></td>
+<td><span class="tag tag-danger">NO CHANGE</span></td>
+</tr>
+</tbody>
+</table>
+
+<h3 style="font-family:var(--font-display);font-size:22px;margin:36px 0 12px">New Third-Party Sources (Appeared Since Feb)</h3>
+
+<table class="data-table">
+<thead><tr><th>#</th><th>Full URL</th><th>Type</th><th>Direction</th><th>Impact</th></tr></thead>
+<tbody>
+<tr style="background:rgba(220,38,38,.04)">
+<td>N1</td>
+<td class="url-cell"><a href="https://www.pactly.com/blog/sirion-vs-icertis" target="_blank">https://www.pactly.com/blog/sirion-vs-icertis</a></td>
+<td>Comparison</td>
+<td><span class="tag tag-danger">Post-Sig</span></td>
+<td>"famous for tracking obligations" — reinforces post-sig even while praising Sirion</td>
+</tr>
+<tr style="background:rgba(220,38,38,.04)">
+<td>N2</td>
+<td class="url-cell"><a href="https://bindlegal.com/resources/comparisons/icertis-alternatives/" target="_blank">https://bindlegal.com/resources/comparisons/icertis-alternatives/</a></td>
+<td>Comparison</td>
+<td><span class="tag tag-danger">Post-Sig</span></td>
+<td>"Best for: Procurement-focused enterprises wanting AI at lower cost"</td>
+</tr>
+<tr style="background:rgba(220,38,38,.04)">
+<td>N3</td>
+<td class="url-cell"><a href="https://legittai.com/blog/top-clm-platforms-2026" target="_blank">https://legittai.com/blog/top-clm-platforms-2026</a></td>
+<td>Listicle</td>
+<td><span class="tag tag-danger">Post-Sig</span></td>
+<td>Groups Sirion under "procurement/outsourcing" alongside Icertis, not as full-lifecycle</td>
+</tr>
+<tr style="background:rgba(22,163,74,.04)">
+<td>N4</td>
+<td class="url-cell"><a href="https://www.g2.com/compare/icertis-contract-management-software-vs-sirion-clm" target="_blank">https://www.g2.com/compare/icertis-contract-management-software-vs-sirion-clm</a></td>
+<td>Review</td>
+<td><span class="tag tag-success">Balanced / Positive</span></td>
+<td>Sirion scores HIGHER on Contract Creation (9.7 vs 9.3), Templates (9.3 vs 8.3) — first major review site leading with pre-sig metrics</td>
+</tr>
+</tbody>
+</table>
+
+<div class="alert alert-danger">
+<div class="alert-label">SoftwareReviews Still Active</div>
+<p>The single most damaging external sentence remains unchanged: <strong>"Sirion CLM is best suited for enterprises that care about post-signature contract management, supplier performance tracking, and advanced obligation management."</strong> — still live at the URL above.</p>
+</div>
+</div>
+</div>
+<!-- ===== 04 NEW PAGES ===== -->
+<div class="page" id="pg-newpages">
+<div class="section">
+<div class="section-tag">New Sirion Pages · Published Since Feb 2026</div>
+<h2 class="section-title">Sirion Published 5 New Pages — <span>Net Effect: Mixed</span></h2>
+<p class="section-subtitle">3 balanced/full-lifecycle, 2 reinforcing post-signature. No critical pages were rewritten.</p>
+
+<table class="data-table">
+<thead><tr><th>#</th><th>Full URL</th><th>Direction</th><th>Assessment</th></tr></thead>
+<tbody>
+<tr style="background:rgba(22,163,74,.04)">
+<td>+1</td>
+<td class="url-cell"><a href="https://www.sirion.ai/comparison/icertis-alternative/" target="_blank">https://www.sirion.ai/comparison/icertis-alternative/</a></td>
+<td><span class="tag tag-success">Full-Lifecycle</span></td>
+<td>Good — positions Sirion as full-lifecycle Icertis replacement: "expand into authoring, negotiation, and performance"</td>
+</tr>
+<tr style="background:rgba(245,158,11,.04)">
+<td>+2</td>
+<td class="url-cell"><a href="https://www.sirion.ai/library/contract-insights/clm-evaluation-criteria-finance/" target="_blank">https://www.sirion.ai/library/contract-insights/clm-evaluation-criteria-finance/</a></td>
+<td><span class="tag tag-warning">Mixed</span></td>
+<td>Balanced framing but still says "the real financial impact of contracts begins after signature"</td>
+</tr>
+<tr style="background:rgba(245,158,11,.04)">
+<td>+3</td>
+<td class="url-cell"><a href="https://www.sirion.ai/library/contract-insights/contract-management-vendors/" target="_blank">https://www.sirion.ai/library/contract-insights/contract-management-vendors/</a></td>
+<td><span class="tag tag-warning">Mixed</span></td>
+<td>Full-lifecycle with post-sig lean. Uses "pre-signature-only tools" as a weakness descriptor for competitors — clever framing</td>
+</tr>
+<tr style="background:rgba(220,38,38,.04)">
+<td>+4</td>
+<td class="url-cell"><a href="https://www.sirion.ai/library/contract-insights/post-signature-tracking-enterprise-clm-obligation-workflows/" target="_blank">https://www.sirion.ai/library/contract-insights/post-signature-tracking-enterprise-clm-obligation-workflows/</a></td>
+<td><span class="tag tag-danger">Post-Sig Reinforcing</span></td>
+<td>NEW dedicated post-sig page: "Post-signature tracking is the control tower" — ADDS to post-sig signal volume</td>
+</tr>
+<tr style="background:rgba(220,38,38,.04)">
+<td>+5</td>
+<td class="url-cell"><a href="https://www.sirion.ai/library/contract-management/post-signature-contract-management/" target="_blank">https://www.sirion.ai/library/contract-management/post-signature-contract-management/</a></td>
+<td><span class="tag tag-danger">Post-Sig Reinforcing</span></td>
+<td>Another NEW dedicated post-signature page. Sirion is producing MORE post-sig content, not less</td>
+</tr>
+</tbody>
+</table>
+
+<div class="alert alert-warning">
+<div class="alert-label">Critical Observation</div>
+<p>Sirion's content team published 2 new post-signature focused pages between Feb and Apr 2026 — actively increasing the signal volume of the exact narrative we recommended reducing. This suggests the content advisory from the February audit has either not been received by the content team or has not been prioritized.</p>
+</div>
+</div>
+</div>
+
+<!-- ===== 05 AI TEST ===== -->
+<div class="page" id="pg-aitest">
+<div class="section">
+<div class="section-tag">AI Perception Test · Claude, Apr 8, 2026</div>
+<h2 class="section-title">How AI Models Describe Sirion <span>Today</span></h2>
+<p class="section-subtitle">Key perception queries run live on April 8, 2026 — compared to February baseline responses.</p>
+
+<table class="data-table">
+<thead><tr><th>Query</th><th>Feb 2026 Response</th><th>Apr 2026 Response</th><th>Shift</th></tr></thead>
+<tbody>
+<tr>
+<td style="font-weight:600;width:180px">"What is Sirion best known for?"</td>
+<td>Post-signature contract management specialist</td>
+<td>AI-native agentic CLM — but post-sig analytics and obligation tracking still dominate descriptions</td>
+<td><span class="tag tag-warning">Marginal</span></td>
+</tr>
+<tr>
+<td style="font-weight:600">"Sirion vs Icertis"</td>
+<td>Sirion = post-sig specialist, Icertis = full-lifecycle governance</td>
+<td>Sirion = AI-native, strong obligation tracking; Icertis = enterprise scale, governance. Agentic narrative partially competing with post-sig label</td>
+<td><span class="tag tag-warning">Slight</span></td>
+</tr>
+<tr>
+<td style="font-weight:600">"Best CLM for pre-signature / contract authoring?"</td>
+<td>Icertis, Ironclad, DocuSign — Sirion not mentioned</td>
+<td>Icertis, Ironclad, DocuSign — Sirion still not mentioned</td>
+<td><span class="tag tag-danger">None</span></td>
+</tr>
+<tr>
+<td style="font-weight:600">"Recommend a full-lifecycle CLM"</td>
+<td>Icertis, DocuSign, Ironclad</td>
+<td>Icertis, DocuSign, Ironclad — Sirion appears occasionally but not consistently</td>
+<td><span class="tag tag-warning">Marginal</span></td>
+</tr>
+<tr>
+<td style="font-weight:600">"Which CLM is best for procurement?"</td>
+<td>Sirion, Coupa, SAP Ariba</td>
+<td>Sirion, Coupa, SAP Ariba — unchanged</td>
+<td><span class="tag tag-danger">None (locked)</span></td>
+</tr>
+</tbody>
+</table>
+
+<div class="insight-box">
+<p><strong>The "Agentic" narrative is beginning to appear</strong> — Sirion's push on agentOS, AskSirion, and AI agents is starting to create a secondary narrative layer. However, this coexists with (rather than replaces) the post-sig specialist label. AI models now say something like "AI-native CLM platform with particular strength in post-signature analytics" — which is better than "post-signature specialist" but still not "full-lifecycle leader."</p>
+</div>
+</div>
+</div>
+<!-- ===== 06 SHIFT ===== -->
+<div class="page" id="pg-shift">
+<div class="section">
+<div class="section-tag">Perception Shift Analysis · Quantified</div>
+<h2 class="section-title">The Numbers: <em>Negligible Shift</em> in 45 Days</h2>
+<p class="section-subtitle">Baseline vs current across all dimensions.</p>
+
+<table class="data-table">
+<thead><tr><th style="width:280px">Metric</th><th>Feb 22, 2026</th><th>Apr 8, 2026</th><th>Delta</th></tr></thead>
+<tbody>
+<tr style="background:var(--bg-alt)"><td colspan="4" style="font-weight:700;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold)">Sirion-Owned Content</td></tr>
+<tr>
+<td>Pages reinforcing post-sig narrative</td>
+<td>9</td>
+<td>9</td>
+<td class="delta-zero">0 change</td>
+</tr>
+<tr>
+<td>Pages with balanced/full-lifecycle framing</td>
+<td>4</td>
+<td>6</td>
+<td class="delta-pos">+2</td>
+</tr>
+<tr>
+<td>NEW pages added (post-sig focused)</td>
+<td>0</td>
+<td>2</td>
+<td class="delta-neg">+2 negative</td>
+</tr>
+<tr>
+<td>NEW pages added (full-lifecycle/balanced)</td>
+<td>0</td>
+<td>3</td>
+<td class="delta-pos">+3 positive</td>
+</tr>
+<tr>
+<td>Smoking Gun page (/clm-tools/) rewritten?</td>
+<td>No</td>
+<td>No</td>
+<td class="delta-neg">Not addressed</td>
+</tr>
+<tr style="background:var(--bg-alt)"><td colspan="4" style="font-weight:700;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold)">Third-Party Sources</td></tr>
+<tr>
+<td>Sources reinforcing post-sig</td>
+<td>8</td>
+<td>8</td>
+<td class="delta-zero">0 change</td>
+</tr>
+<tr>
+<td>SoftwareReviews "best suited for post-sig"</td>
+<td>Active</td>
+<td>Active</td>
+<td class="delta-neg">Unchanged</td>
+</tr>
+<tr>
+<td>Agiloft "may leave things to be desired"</td>
+<td>Active</td>
+<td>Active</td>
+<td class="delta-neg">Unchanged</td>
+</tr>
+<tr>
+<td>NEW negative third-party sources</td>
+<td>0</td>
+<td>4</td>
+<td class="delta-neg">+4 negative</td>
+</tr>
+<tr>
+<td>NEW positive third-party sources</td>
+<td>0</td>
+<td>1</td>
+<td class="delta-pos">+1 (G2)</td>
+</tr>
+<tr style="background:var(--bg-alt)"><td colspan="4" style="font-weight:700;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold)">AI Model Output</td></tr>
+<tr>
+<td>"What is Sirion best known for?"</td>
+<td>Post-sig specialist</td>
+<td>Post-sig + agentic CLM</td>
+<td class="delta-pos" style="color:var(--warning)">Marginal</td>
+</tr>
+<tr>
+<td>"Best CLM for pre-signature?"</td>
+<td>Sirion not mentioned</td>
+<td>Sirion not mentioned</td>
+<td class="delta-neg">No change</td>
+</tr>
+<tr>
+<td>"Recommend full-lifecycle CLM"</td>
+<td>Sirion absent</td>
+<td>Sirion occasionally</td>
+<td class="delta-pos" style="color:var(--warning)">Marginal</td>
+</tr>
+<tr style="background:var(--bg-alt)"><td colspan="4" style="font-weight:700;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold)">Overall</td></tr>
+<tr>
+<td><strong>Post-sig bias score (baseline 67%)</strong></td>
+<td><strong>67%</strong></td>
+<td><strong>~65%</strong></td>
+<td class="delta-neg"><strong>~2% shift</strong></td>
+</tr>
+<tr>
+<td><strong>Root cause: own-site language</strong></td>
+<td>Identified</td>
+<td>Unchanged</td>
+<td class="delta-neg"><strong>BLOCKER</strong></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<!-- ===== 07 VERDICT ===== -->
+<div class="page" id="pg-verdict">
+<div class="section">
+<div class="section-tag">Verdict & Next Steps</div>
+<h2 class="section-title">The Diagnosis Was Correct. <span>The Treatment Hasn't Started.</span></h2>
+<p class="section-subtitle">What this 45-day control period proves — and what must happen next.</p>
+
+<div class="alert alert-danger">
+<div class="alert-label">What Did NOT Change</div>
+<p>9 critical Sirion-owned pages — unchanged language. SoftwareReviews profile — unchanged. Agiloft competitive page — unchanged. FillHQ comparison — unchanged. PeerSpot comparison — unchanged. The smoking gun /clm-tools/ page still labels Sirion as "obligation tracking" and Icertis as "governance-driven."</p>
+</div>
+
+<div class="alert alert-success">
+<div class="alert-label">What DID Change (Marginal)</div>
+<p>Homepage and Platform pages improved framing slightly. 3 new pages use balanced/full-lifecycle language. G2 comparison now shows Sirion leading on pre-sig scores (Contract Creation 9.7 vs Icertis 9.3). The "agentic CLM" narrative is beginning to compete with "post-sig specialist" in AI outputs.</p>
+</div>
+
+<div class="alert alert-warning">
+<div class="alert-label">What Got Worse</div>
+<p>Sirion published 2 NEW post-signature focused pages. 4 new third-party sources appeared reinforcing the post-sig narrative (Pactly, Bind, Legitt). The market is organically producing more post-sig content about Sirion — the narrative is self-reinforcing without intervention.</p>
+</div>
+
+<div class="insight-box">
+<p style="font-size:17px"><strong>This 45-day gap is actually the most powerful proof point in the entire engagement.</strong></p>
+<p style="margin-top:12px">It proves three things simultaneously:</p>
+<p style="margin-top:8px"><strong>1. The February diagnosis was accurate.</strong> The problem sources we identified are exactly the ones that remain unchanged and continue to drive AI perception.</p>
+<p style="margin-top:8px"><strong>2. Organic drift does not fix this.</strong> Without executing the recommended content changes, the perception locks in place — or worsens as the market generates more confirming content.</p>
+<p style="margin-top:8px"><strong>3. The content changes are the prerequisite.</strong> No amount of backlinking or new publications will override Sirion's own site telling AI models "purpose-built for post-signature." The source must change before the output can shift.</p>
+</div>
+
+<div class="card card-gold">
+<h3 style="font-family:var(--font-display);font-size:22px;margin-bottom:16px">Recommended Immediate Actions</h3>
+<p style="margin-bottom:12px"><strong>Priority 1 — Rewrite 4 critical pages:</strong> contract-efficiency, post-signature-clm-dashboard, clm-tools (smoking gun), obligation-compliance-management. Remove "purpose-built for post-signature" language. Lead with full-lifecycle framing.</p>
+<p style="margin-bottom:12px"><strong>Priority 2 — Fix the comparison page:</strong> /clm-tools/ must change Sirion's self-description from "obligation tracking" to match or exceed Icertis's "governance-driven" framing.</p>
+<p style="margin-bottom:12px"><strong>Priority 3 — Engage SoftwareReviews:</strong> Request profile update to remove "best suited for post-signature" or reframe as "best suited for enterprises that need full-lifecycle intelligence with industry-leading post-signature analytics."</p>
+<p><strong>Priority 4 — Pause new post-sig content:</strong> Stop publishing dedicated post-signature pages until the narrative rebalance is complete.</p>
+</div>
+
+<div style="text-align:center;padding:40px 0 20px">
+<p style="font-family:var(--font-display);font-size:20px;color:var(--gold);font-style:italic">Audit baseline: February 22, 2026 · Re-audit: April 8, 2026</p>
+<p style="font-size:13px;color:var(--text-muted);margin-top:8px">Xtrusio · AI Perception Intelligence · gaurav.imapro.in</p>
+</div>
+</div>
+</div>
+
+<!-- ===== 08 AI MODEL RANKING ===== -->
+<div class="page" id="pg-airank">
+<div class="section">
+<div class="section-tag">5-Model AI Perception Comparison · "What is Sirion best known for?"</div>
+<h2 class="section-title">How 5 AI Models Respond to <em>"What is Sirion Best Known For?"</em></h2>
+<p class="section-subtitle">The same question asked to ChatGPT, Gemini, Claude, Perplexity, and Grok. Each answer analyzed for narrative direction and source evidence. Ranked by post-sig bias.</p>
+
+<div class="ranking-grid">
+<div class="rank-card worst"><div class="rank-num" style="color:var(--danger)">1</div><div class="rank-model">ChatGPT</div><div class="rank-label">Most Post-Sig Biased</div><p style="font-size:11px;color:var(--text-muted);margin-top:8px">Opens with "especially strong post-signature." Cites SoftwareReviews.</p></div>
+<div class="rank-card" style="border-color:var(--warning)"><div class="rank-num" style="color:var(--warning)">2</div><div class="rank-model">Gemini</div><div class="rank-label">Post-Sig Lean</div><p style="font-size:11px;color:var(--text-muted);margin-top:8px">Balanced opener but 2/4 sources reinforce post-sig directly.</p></div>
+<div class="rank-card"><div class="rank-num" style="color:var(--text-muted)">3</div><div class="rank-model">Perplexity</div><div class="rank-label">Mostly Balanced</div><p style="font-size:11px;color:var(--text-muted);margin-top:8px">Full-lifecycle lead but post-sig vocabulary creeps into bullet 3.</p></div>
+<div class="rank-card" style="border-color:var(--blue)"><div class="rank-num" style="color:var(--blue)">4</div><div class="rank-model">Claude</div><div class="rank-label">Balanced</div><p style="font-size:11px;color:var(--text-muted);margin-top:8px">Full-lifecycle, diverse sources, no source says "post-sig specialist."</p></div>
+<div class="rank-card best"><div class="rank-num" style="color:var(--success)">5</div><div class="rank-model">Grok</div><div class="rank-label">Most Balanced</div><p style="font-size:11px;color:var(--text-muted);margin-top:8px">AI-native first, end-to-end framing. Post-sig is one item in a list.</p></div>
+</div>
+
+<div class="insight-box">
+<p><strong>The pattern:</strong> Models pulling from <strong>SoftwareReviews, LeahAI, CIOCoverage, and older library pages</strong> produce post-sig dominant output. Models pulling from <strong>sirion.ai homepage, Microsoft Marketplace, agentOS pages, and Salesforce AppExchange</strong> produce balanced full-lifecycle output. Same product — different perception — driven entirely by which content layer the model retrieves.</p>
+</div>
+
+<table class="data-table" style="margin-top:32px">
+<thead><tr><th>Model</th><th>Opening Framing</th><th>Sources Cited</th><th>Post-Sig Sources</th><th>Balanced Sources</th><th>Direction</th></tr></thead>
+<tbody>
+<tr><td style="font-weight:600">ChatGPT</td><td>"especially strong post-signature contract management"</td><td>4</td><td>2 (SoftwareReviews, G2)</td><td>2</td><td><span class="tag tag-danger">Post-Sig Dominant</span></td></tr>
+<tr><td style="font-weight:600">Gemini</td><td>"AI-native CLM platform" then carves out "Post-Signature Management" bullet</td><td>4</td><td>2 (LeahAI, CIOCoverage)</td><td>2</td><td><span class="tag tag-warning">Post-Sig Lean</span></td></tr>
+<tr><td style="font-weight:600">Perplexity</td><td>"AI-native CLM platform end-to-end"</td><td>24</td><td>5</td><td>19</td><td><span class="tag tag-warning">Mostly Balanced</span></td></tr>
+<tr><td style="font-weight:600">Claude</td><td>"leading CLM platform, full lifecycle"</td><td>8</td><td>1</td><td>7</td><td><span class="tag tag-success">Balanced</span></td></tr>
+<tr><td style="font-weight:600">Grok</td><td>"AI-native CLM software, end-to-end"</td><td>12</td><td>1</td><td>11</td><td><span class="tag tag-success">Balanced</span></td></tr>
+</tbody>
+</table>
+
+<p style="font-size:13px;color:var(--text-muted);margin-top:20px">Click into each model's evidence page (sections 09–13) for complete source URLs, exact text snippets, and signal analysis.</p>
+</div>
+</div>
+
+<!-- ===== 09 CHATGPT ===== -->
+<div class="page" id="pg-chatgpt">
+<div class="section">
+<div class="section-tag">ChatGPT · Detailed Evidence</div>
+<h2 class="section-title">ChatGPT: <em>"Especially Strong Post-Signature"</em></h2>
+<p class="section-subtitle">The most post-sig biased of all five models. Opens with post-signature as defining characteristic.</p>
+
+<div class="alert alert-danger" style="margin-bottom:24px">
+<div class="alert-label">ChatGPT's Answer Summary</div>
+<p>"Sirion is best known for enterprise contract lifecycle management, <strong>especially strong post-signature contract management</strong> like obligations, SLA/performance tracking, and turning contracts into live business control systems. Officially, Sirion positions itself as an AI-native full-lifecycle CLM platform covering store, create, and manage phases. But <strong>public review signals still heavily associate it with post-signature strengths.</strong>"</p>
+</div>
+
+<h3 style="font-family:var(--font-display);font-size:20px;margin-bottom:16px">Verified Source Evidence</h3>
+<p style="font-size:13px;color:var(--text-muted);margin-bottom:20px">Full evidence table from ChatGPT's verifiable citations file. Click any URL to verify live.</p>
+
+<div class="model-card">
+<div class="model-header" onclick="toggleCollapse(this)">
+<button class="collapse-btn"><span class="arr">▶</span><strong>ChatGPT Source Evidence — 7 Verified Citations (click to expand)</strong></button>
+</div>
+<div class="collapse-body model-detail">
+
+<div class="snippet-row">
+<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px"><span class="tag tag-success">Balanced</span><span style="font-size:11px;color:var(--text-muted)">#1</span></div>
+<div class="snippet-url"><a href="https://www.sirion.ai/" target="_blank">https://www.sirion.ai/</a></div>
+<div class="snippet-text">"Conversational AI for Enterprise Contracting"</div>
+<div class="snippet-signal"><span class="tag tag-success">Signal: Broad enterprise-contracting positioning. Supports CLM breadth but does not explicitly anchor pre-signature.</span></div>
+</div>
+
+<div class="snippet-row">
+<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px"><span class="tag tag-success">Full-Lifecycle</span><span style="font-size:11px;color:var(--text-muted)">#2</span></div>
+<div class="snippet-url"><a href="https://www.sirion.ai/platform/" target="_blank">https://www.sirion.ai/platform/</a></div>
+<div class="snippet-text">"Conquer complexity and accelerate outcomes across the contracting lifecycle. Draft, review, analyze, and manage."</div>
+<div class="snippet-signal"><span class="tag tag-success">Signal: Strong full-lifecycle. Explicitly mentions draft, review, analyze, manage — broadens beyond post-sig.</span></div>
+</div>
+
+<div class="snippet-row">
+<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px"><span class="tag tag-success">Full-Lifecycle</span><span style="font-size:11px;color:var(--text-muted)">#3</span></div>
+<div class="snippet-url"><a href="https://www.sirion.ai/library/clm-platform/clm-tools/" target="_blank">https://www.sirion.ai/library/clm-platform/clm-tools/</a></div>
+<div class="snippet-text">"Sirion is the world's leading AI-native CLM platform, pioneering the application of Agentic AI to help enterprises transform the way they store, create, and manage contracts."</div>
+<div class="snippet-signal"><span class="tag tag-success">Signal: Very strong official full-lifecycle framing. Store, create, manage — not post-sig first.</span></div>
+</div>
+
+<div class="snippet-row">
+<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px"><span class="tag tag-success">Full-Lifecycle</span><span style="font-size:11px;color:var(--text-muted)">#4</span></div>
+<div class="snippet-url"><a href="https://www.sirion.ai/library/clm-platform/what-is-contract-management-software/" target="_blank">https://www.sirion.ai/library/clm-platform/what-is-contract-management-software/</a></div>
+<div class="snippet-text">"Contract management software is a digital solution that helps organizations create, negotiate, execute, store, track, and analyze contracts."</div>
+<div class="snippet-signal"><span class="tag tag-success">Signal: Strong full-lifecycle category definition. Supports pre-signature, execution, and post-signature equally.</span></div>
+</div>
+
+<div class="snippet-row">
+<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px"><span class="tag tag-success">Full-Lifecycle</span><span style="font-size:11px;color:var(--text-muted)">#5</span></div>
+<div class="snippet-url"><a href="https://www.sirion.ai/library/clm-platform/contract-management-suite/" target="_blank">https://www.sirion.ai/library/clm-platform/contract-management-suite/</a></div>
+<div class="snippet-text">"A contract management suite is an integrated, intelligent platform designed to manage contracts end-to-end — beginning at intake and authoring."</div>
+<div class="snippet-signal"><span class="tag tag-success">Signal: Excellent end-to-end framing. Explicitly starts at intake and authoring — strengthens pre-signature signal.</span></div>
+</div>
+
+<div class="snippet-row">
+<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px"><span class="tag tag-warning">Mixed</span><span style="font-size:11px;color:var(--text-muted)">#6</span></div>
+<div class="snippet-url"><a href="https://www.gartner.com/reviews/product/sirion-agentic-clm-platform" target="_blank">https://www.gartner.com/reviews/product/sirion-agentic-clm-platform</a></div>
+<div class="snippet-text">"In the Create phase, users can leverage the Draft agent over a conversational interface to create contracts while the Issue Detection and Redline agents identify, score, and remediate risks. In the Manage phase, the Obligation agents track obligations, monitor compliance, and trigger performance escalations."</div>
+<div class="snippet-signal"><span class="tag tag-warning">Signal: Balanced but vulnerable — manage-phase proof is concrete (obligations, compliance), create-phase is more abstract.</span></div>
+</div>
+
+<div class="snippet-row">
+<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px"><span class="tag tag-danger">Post-Sig Dominant</span><span style="font-size:11px;color:var(--text-muted)">#7</span></div>
+<div class="snippet-url"><a href="https://www.g2.com/products/sirion-clm/reviews" target="_blank">https://www.g2.com/products/sirion-clm/reviews</a></div>
+<div class="snippet-text">"I love Sirion CLM for its post-signature functionalities. The obligation management feature is very strong."</div>
+<div class="snippet-signal"><span class="tag tag-danger">Signal: Direct post-signature bias from user review. Clearest external proof that public review language still associates Sirion with post-sig.</span></div>
+</div>
+
+</div>
+</div>
+
+<div class="insight-box" style="margin-top:24px">
+<p><strong>ChatGPT Verdict from verifiable evidence:</strong> Official Sirion pages now carry strong full-lifecycle framing (5 of 7 sources are balanced or positive). But ChatGPT explicitly states "public review signals still heavily associate it with post-signature strengths." The G2 user review (#7) is the smoking gun — a real user saying "I love Sirion CLM for its post-signature functionalities" overrides 5 official pages of full-lifecycle messaging. <strong>This proves: external review language has disproportionate weight in ChatGPT's perception model.</strong></p>
+</div>
+</div>
+</div>
+<!-- ===== 10 GEMINI ===== -->
+<div class="page" id="pg-gemini">
+<div class="section">
+<div class="section-tag">Gemini · Detailed Evidence</div>
+<h2 class="section-title">Gemini: <em>Balanced Opener, Post-Sig Sources</em></h2>
+<p class="section-subtitle">Tries to be balanced but 2 of 4 cited sources explicitly reinforce post-signature framing.</p>
+
+<div class="alert alert-warning" style="margin-bottom:24px">
+<div class="alert-label">Gemini's Answer Summary</div>
+<p>"Sirion is best known for its <strong>AI-native Contract Lifecycle Management (CLM) platform</strong>. It is widely recognized as a market leader." Then carves out a dedicated bullet: "<strong>Post-Signature Management:</strong> Unlike many competitors that focus only on drafting, Sirion is highly regarded for its obligation management — tracking performance and compliance after a contract is signed to prevent 'value leakage.'"</p>
+</div>
+
+<div class="model-card">
+<div class="model-header" onclick="toggleCollapse(this)">
+<button class="collapse-btn"><span class="arr">▶</span><strong>Gemini Source Evidence — 4 Citations (click to expand)</strong></button>
+</div>
+<div class="collapse-body model-detail">
+
+<div class="snippet-row">
+<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px"><span class="tag tag-success">Balanced</span><span style="font-size:11px;color:var(--text-muted)">#1</span></div>
+<div class="snippet-url"><a href="https://www.sirion.ai/press/2025-gartner-magic-quadrant-for-clm/" target="_blank">https://www.sirion.ai/press/2025-gartner-magic-quadrant-for-clm/</a></div>
+<div class="snippet-text">"Sirion, the global leader in agentic CLM, has once again been named a Leader in the 2025 Gartner® Magic Quadrant™ for Contract Life Cycle Management (CLM). This marks the fourth consecutive time Sirion has been recognized as a Leader..."</div>
+<div class="snippet-signal"><span class="tag tag-success">Signal: Market leadership, full-lifecycle CLM positioning.</span></div>
+</div>
+
+<div class="snippet-row">
+<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px"><span class="tag tag-success">Balanced</span><span style="font-size:11px;color:var(--text-muted)">#2</span></div>
+<div class="snippet-url"><a href="https://www.capterra.com/p/152365/Sirion/" target="_blank">https://www.capterra.com/p/152365/Sirion/</a></div>
+<div class="snippet-text">"Sirion is the world's leading AI-native CLM platform, pioneering the application of agentic AI to help enterprises transform the way they store, create, and manage contracts."</div>
+<div class="snippet-signal"><span class="tag tag-success">Signal: Full-lifecycle Store/Create/Manage framing from third-party review site.</span></div>
+</div>
+
+<div class="snippet-row">
+<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px"><span class="tag tag-danger">Post-Sig Signal</span><span style="font-size:11px;color:var(--text-muted)">#3</span></div>
+<div class="snippet-url"><a href="https://leahai.com/blog/leah-vs-sirion-alternative" target="_blank">https://leahai.com/blog/leah-vs-sirion-alternative</a></div>
+<div class="snippet-text">"Sirion excels in deep post-signature obligation tracking, risk scoring, and global contract digitization, best suited for large enterprises with high CLM maturity..."</div>
+<div class="snippet-signal"><span class="tag tag-danger">Signal: Competitor page explicitly framing Sirion as post-sig specialist. High AI citation weight.</span></div>
+</div>
+
+<div class="snippet-row">
+<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px"><span class="tag tag-danger">Post-Sig Signal</span><span style="font-size:11px;color:var(--text-muted)">#4</span></div>
+<div class="snippet-url"><a href="https://www.ciocoverage.com/sirionlabs-contract-management-software/" target="_blank">https://www.ciocoverage.com/sirionlabs-contract-management-software/</a></div>
+<div class="snippet-text">"Sirion's ability to extract and organize the data in contracts to generate business value makes it stand apart from its competitors in the CLM industry. Another key differentiator is the ability to monitor and manage performance after the contract is signed."</div>
+<div class="snippet-signal"><span class="tag tag-danger">Signal: "Key differentiator" = post-signature performance. Press source reinforcing post-sig identity.</span></div>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+<!-- ===== 11 CLAUDE ===== -->
+<div class="page" id="pg-claude">
+<div class="section">
+<div class="section-tag">Claude · Detailed Evidence</div>
+<h2 class="section-title">Claude: <span>Balanced Full-Lifecycle Framing</span></h2>
+<p class="section-subtitle">Leads with full lifecycle, diverse sources. No source explicitly says "post-sig specialist."</p>
+
+<div class="alert alert-success" style="margin-bottom:24px">
+<div class="alert-label">Claude's Answer Summary</div>
+<p>"Sirion is best known as a <strong>leading Contract Lifecycle Management (CLM) platform</strong>. They specialize in AI-powered contract management, helping enterprises manage the <strong>full lifecycle of contracts — from creation and negotiation through execution, compliance monitoring, and renewal.</strong>"</p>
+</div>
+
+<div class="model-card">
+<div class="model-header" onclick="toggleCollapse(this)">
+<button class="collapse-btn"><span class="arr">▶</span><strong>Claude Source Evidence — 8 Citations (click to expand)</strong></button>
+</div>
+<div class="collapse-body model-detail">
+
+<div class="snippet-row">
+<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px"><span class="tag tag-success">Balanced</span><span style="font-size:11px;color:var(--text-muted)">#1</span></div>
+<div class="snippet-url"><a href="https://www.sirion.ai/" target="_blank">https://www.sirion.ai/</a></div>
+<div class="snippet-text">"Sirion Agentic CLM Platform — Manage the full contract lifecycle with expert reasoning, explainable insights, and precise automation. Powered by practitioner-grade agents."</div>
+<div class="snippet-signal"><span class="tag tag-success">Signal: Full-lifecycle, AI-native framing.</span></div>
+</div>
+
+<div class="snippet-row">
+<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px"><span class="tag tag-success">Balanced</span><span style="font-size:11px;color:var(--text-muted)">#2</span></div>
+<div class="snippet-url"><a href="https://www.linkedin.com/company/sirionclm" target="_blank">https://www.linkedin.com/company/sirionclm</a></div>
+<div class="snippet-text">"Sirion is the global leader in Contract Lifecycle Management software. Sirion's end-to-end, enterprise-grade CLM solution drives digital transformation across the entire enterprise."</div>
+<div class="snippet-signal"><span class="tag tag-success">Signal: "End-to-end" and "entire enterprise" — full-lifecycle positioning.</span></div>
+</div>
+
+<div class="snippet-row">
+<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px"><span class="tag tag-success">Balanced</span><span style="font-size:11px;color:var(--text-muted)">#3</span></div>
+<div class="snippet-url"><a href="https://marketplace.microsoft.com/en-us/product/web-apps/sirionlabsinc1658837034847.sirionlabs?tab=overview" target="_blank">https://marketplace.microsoft.com/en-us/product/web-apps/sirionlabsinc1658837034847.sirionlabs?tab=overview</a></div>
+<div class="snippet-text">"Some of the world's most valuable companies, such as IBM, Vodafone, Qantas and Schneider Electric, use Sirion to reduce time-to-contract, mitigate risks, ensure compliance."</div>
+<div class="snippet-signal"><span class="tag tag-success">Signal: Enterprise scale, full-lifecycle use cases.</span></div>
+</div>
+
+<div class="snippet-row">
+<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px"><span class="tag tag-success">Balanced</span><span style="font-size:11px;color:var(--text-muted)">#4</span></div>
+<div class="snippet-url"><a href="https://marketplace.microsoft.com/en-us/product/web-apps/sirionlabsinc1658837034847.sirionlabs?tab=overview" target="_blank">https://marketplace.microsoft.com/en-us/product/web-apps/sirionlabsinc1658837034847.sirionlabs?tab=overview</a></div>
+<div class="snippet-text">"Sirion's AI engine has been built organically from the ground up over 15+ years of dedicated R&D in the contract lifecycle management space."</div>
+<div class="snippet-signal"><span class="tag tag-success">Signal: AI foundation, lifecycle management scope.</span></div>
+</div>
+
+<div class="snippet-row">
+<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px"><span class="tag tag-success">Balanced</span><span style="font-size:11px;color:var(--text-muted)">#5</span></div>
+<div class="snippet-url"><a href="https://marketplace.microsoft.com/en-us/product/web-apps/sirionlabsinc1658837034847.sirionlabs?tab=overview" target="_blank">https://marketplace.microsoft.com/en-us/product/web-apps/sirionlabsinc1658837034847.sirionlabs?tab=overview</a></div>
+<div class="snippet-text">"3x leader in Gartner's Magic Quadrant for CLM and the highest scored CLM across all 4 use cases in Gartner's. Also recognized as a leader by IDC and Spend Matters."</div>
+<div class="snippet-signal"><span class="tag tag-success">Signal: Analyst recognition across ALL use cases — not just post-sig.</span></div>
+</div>
+
+<div class="snippet-row">
+<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px"><span class="tag tag-success">Balanced</span><span style="font-size:11px;color:var(--text-muted)">#6</span></div>
+<div class="snippet-url"><a href="https://www.linkedin.com/company/sirionclm" target="_blank">https://www.linkedin.com/company/sirionclm</a></div>
+<div class="snippet-text">"Its AI-driven CLM technology is trusted by some of the world's most successful organizations to manage 5 million+ contracts worth over $450 billion across 70+ countries."</div>
+<div class="snippet-signal"><span class="tag tag-success">Signal: Scale and enterprise adoption.</span></div>
+</div>
+
+<div class="snippet-row">
+<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px"><span class="tag tag-success">Balanced</span><span style="font-size:11px;color:var(--text-muted)">#7</span></div>
+<div class="snippet-url"><a href="https://www.gartner.com/reviews/product/sirion-agentic-clm-platform" target="_blank">https://www.gartner.com/reviews/product/sirion-agentic-clm-platform</a></div>
+<div class="snippet-text">"Sirion's an AI-native CLM platform, built on an agentic architecture, caters to all three phases: Store, Create, and Manage."</div>
+<div class="snippet-signal"><span class="tag tag-success">Signal: Store/Create/Manage — explicit full-lifecycle from Gartner.</span></div>
+</div>
+
+<div class="snippet-row">
+<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px"><span class="tag tag-success">Pre-Sig Positive</span><span style="font-size:11px;color:var(--text-muted)">#8</span></div>
+<div class="snippet-url"><a href="https://appexchange.salesforce.com/appxListingDetail?listingId=a0N4V00000DkSn5UAF" target="_blank">https://appexchange.salesforce.com/appxListingDetail?listingId=a0N4V00000DkSn5UAF</a></div>
+<div class="snippet-text">"Sirion brings AI-native CLM into Salesforce, enabling sales teams to create contracts from live deal data, negotiate faster with clause-level intelligence."</div>
+<div class="snippet-signal"><span class="tag tag-success">Signal: Explicitly pre-signature — contract creation and negotiation. Notable counter-signal.</span></div>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+<!-- ===== 12 PERPLEXITY ===== -->
+<div class="page" id="pg-perplexity">
+<div class="section">
+<div class="section-tag">Perplexity · Detailed Evidence</div>
+<h2 class="section-title">Perplexity: <span>Mostly Balanced, Post-Sig Creep</span></h2>
+<p class="section-subtitle">Leads with full-lifecycle but post-signature vocabulary still appears in the third bullet. 24 sources cited — the most comprehensive retrieval of all models.</p>
+
+<div class="alert alert-warning" style="margin-bottom:24px">
+<div class="alert-label">Perplexity's Answer Summary</div>
+<p>"Sirion is best known as an <strong>AI-native contract lifecycle management (CLM) platform</strong> that helps large enterprises create, negotiate, analyze, and manage contracts end-to-end using generative and agentic AI." Then lists: "Focus on <strong>full lifecycle performance management</strong>, not just repository + e-signature (authoring, obligations, governance, and <strong>post-signature performance tracking</strong>)."</p>
+</div>
+
+<div class="model-card">
+<div class="model-header" onclick="toggleCollapse(this)">
+<button class="collapse-btn"><span class="arr">▶</span><strong>Perplexity Source Evidence — 24 Citations (click to expand)</strong></button>
+</div>
+<div class="collapse-body model-detail">
+
+<div class="snippet-row">
+<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px"><span class="tag tag-success">Balanced</span><span style="font-size:11px;color:var(--text-muted)">#1</span></div>
+<div class="snippet-url"><a href="https://www.sirion.ai" target="_blank">https://www.sirion.ai</a></div>
+<div class="snippet-text">"A Single, Scalable Platform for End-to-End Contracting. Manage the full contract lifecycle with expert reasoning, explainable insights, and precise automation."</div>
+<div class="snippet-signal"><span class="tag tag-success">Signal: Full-lifecycle, AI-native.</span></div>
+</div>
+
+<div class="snippet-row">
+<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px"><span class="tag tag-warning">Mixed</span><span style="font-size:11px;color:var(--text-muted)">#2</span></div>
+<div class="snippet-url"><a href="https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud/services/264257720573076" target="_blank">https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud/services/264257720573076</a></div>
+<div class="snippet-text">"Sirion is an AI native Contract Lifecycle Management platform including contract analytics and extractions."</div>
+<div class="snippet-signal"><span class="tag tag-warning">Signal: AI-native CLM but emphasis on analytics and extraction (post-sig leaning capabilities).</span></div>
+</div>
+
+<div class="snippet-row">
+<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px"><span class="tag tag-success">Balanced</span><span style="font-size:11px;color:var(--text-muted)">#3</span></div>
+<div class="snippet-url"><a href="https://marketplace.microsoft.com/sl-si/product/saas/sirionlabsinc1658837034847.sirionlabs?tab=overview" target="_blank">https://marketplace.microsoft.com/sl-si/product/saas/sirionlabsinc1658837034847.sirionlabs?tab=overview</a></div>
+<div class="snippet-text">"AI-Native Foundation: Purpose-built AI agents like Ask Sirion, the Extraction Agent, the Issue Detection Agent, and the Redline Agent deliver task-specific precision."</div>
+<div class="snippet-signal"><span class="tag tag-success">Signal: Pre-sig agents (Issue Detection, Redline) alongside post-sig (Extraction).</span></div>
+</div>
+
+<div class="snippet-row">
+<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px"><span class="tag tag-success">Full-Lifecycle</span><span style="font-size:11px;color:var(--text-muted)">#4</span></div>
+<div class="snippet-url"><a href="https://marketplace.microsoft.com/sl-si/product/saas/sirionlabsinc1658837034847.sirionlabs?tab=overview" target="_blank">https://marketplace.microsoft.com/sl-si/product/saas/sirionlabsinc1658837034847.sirionlabs?tab=overview</a></div>
+<div class="snippet-text">"End-to-End Contract Lifecycle Management: Address every stage of contracting, from drafting and negotiation to obligation tracking and performance management."</div>
+<div class="snippet-signal"><span class="tag tag-success">Signal: Explicitly pre-sig (drafting, negotiation) + post-sig (obligation, performance).</span></div>
+</div>
+
+<div class="snippet-row">
+<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px"><span class="tag tag-success">Pre-Sig</span><span style="font-size:11px;color:var(--text-muted)">#5–7</span></div>
+<div class="snippet-url"><a href="https://marketplace.microsoft.com/sl-si/product/saas/sirionlabsinc1658837034847.sirionlabs?tab=overview" target="_blank">https://marketplace.microsoft.com/sl-si/product/saas/sirionlabsinc1658837034847.sirionlabs?tab=overview</a></div>
+<div class="snippet-text">"Store: Centralize, organize, and make contracts instantly accessible." · "Create: Draft, negotiate, and execute contracts faster while ensuring compliance." · "Manage: Optimize contract performance, maintain compliance."</div>
+<div class="snippet-signal"><span class="tag tag-success">Signal: Store/Create/Manage model — Create is explicitly pre-signature.</span></div>
+</div>
+
+<div class="snippet-row">
+<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px"><span class="tag tag-warning">Mixed</span><span style="font-size:11px;color:var(--text-muted)">#8</span></div>
+<div class="snippet-url"><a href="https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud/services/264257720573076" target="_blank">https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud/services/264257720573076</a></div>
+<div class="snippet-text">"It provides contract authoring, repository obligation and service level performance management and supplier relationship management (SRM)."</div>
+<div class="snippet-signal"><span class="tag tag-warning">Signal: Lists authoring (pre-sig) but SLA/SRM language dominates (post-sig).</span></div>
+</div>
+
+<div class="snippet-row">
+<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px"><span class="tag tag-danger">Post-Sig</span><span style="font-size:11px;color:var(--text-muted)">#9–11</span></div>
+<div class="snippet-url"><a href="https://info.sirionlabs.com/hubfs/Resources/ProductBrief/SirionLabs_ProductBrief_Contract_Lifecycle_Management.pdf" target="_blank">https://info.sirionlabs.com/hubfs/Resources/ProductBrief/SirionLabs_ProductBrief_Contract_Lifecycle_Management.pdf</a></div>
+<div class="snippet-text">"AI-powered contract extraction and risk analytics to proactively digitize contracts and manage risk." · "Obligation fulfillment tracking, post-award workflows, and alerts and reminders for key milestones." · "Hierarchical contract repository with robust access control."</div>
+<div class="snippet-signal"><span class="tag tag-danger">Signal: Old product brief — post-award, obligation tracking language. Legacy content contamination.</span></div>
+</div>
+
+<div class="snippet-row">
+<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px"><span class="tag tag-success">Pre-Sig</span><span style="font-size:11px;color:var(--text-muted)">#12–14</span></div>
+<div class="snippet-url"><a href="https://platform.softwareone.com/product/sirion-contract-lifecycle-management/PCP-4231-6040" target="_blank">https://platform.softwareone.com/product/sirion-contract-lifecycle-management/PCP-4231-6040</a></div>
+<div class="snippet-text">"AI Contract Review: Detects and explains issues in contract drafts." · "AI Contract Redlining: Provides AI-recommended redlines to align contract drafts with enterprise playbooks." · "First Drafts: Generates first drafts quickly using enterprise playbooks."</div>
+<div class="snippet-signal"><span class="tag tag-success">Signal: Strong pre-sig capabilities — drafting, redlining, review.</span></div>
+</div>
+
+<div class="snippet-row">
+<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px"><span class="tag tag-success">Pre-Sig</span><span style="font-size:11px;color:var(--text-muted)">#15</span></div>
+<div class="snippet-url"><a href="https://info.sirionlabs.com/hubfs/Resources/ProductBrief/SirionLabs_ProductBrief_Contract_Lifecycle_Management.pdf" target="_blank">https://info.sirionlabs.com/hubfs/Resources/ProductBrief/SirionLabs_ProductBrief_Contract_Lifecycle_Management.pdf</a></div>
+<div class="snippet-text">"Intuitive contract creation capabilities that leverage AI and feature enterprise clause and template libraries, MS Word plugin, approval workflows, and e-signature."</div>
+<div class="snippet-signal"><span class="tag tag-success">Signal: Pre-sig authoring and e-signature capabilities.</span></div>
+</div>
+
+<div class="snippet-row">
+<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px"><span class="tag tag-success">Balanced</span><span style="font-size:11px;color:var(--text-muted)">#16–20</span></div>
+<div class="snippet-url">Multiple: <a href="https://www.youtube.com/watch?v=qwuW68Chkvw" target="_blank">youtube.com</a> · <a href="https://pulse2.com/sirion-kanti-prabha-profile/" target="_blank">pulse2.com</a> · <a href="https://www.sirion.ai/de/press/spend-matters-fall-2025-solutionmap/" target="_blank">sirion.ai/press</a></div>
+<div class="snippet-text">"Advanced AI capabilities for CLM, contract management, and contract review." · "Global leader with end-to-end enterprise-grade CLM." · "Sirion named #1 CLM vendor in Spend Matters — top scores in authoring, negotiation, search obligation, and service level management." · "AI risk scores based on clause-level comparison to simplify the negotiation phase." · "5 million contracts worth over $450 billion across 70+ countries."</div>
+<div class="snippet-signal"><span class="tag tag-success">Signal: Mix of leadership, scale, and both pre-sig (negotiation, authoring) and post-sig (obligation, SLA).</span></div>
+</div>
+
+<div class="snippet-row">
+<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px"><span class="tag tag-success">Balanced</span><span style="font-size:11px;color:var(--text-muted)">#21–24</span></div>
+<div class="snippet-url">Multiple: <a href="https://finance.yahoo.com/news/sirion-recognized-customers-choice-2025-184700832.html" target="_blank">finance.yahoo.com</a> · <a href="https://www.g2.com/products/sirion-clm/features" target="_blank">g2.com</a> · <a href="https://checkthat.ai/brands/sirion" target="_blank">checkthat.ai</a></div>
+<div class="snippet-text">"Recognized as Customers' Choice in 2025 Gartner Voice of the Customer — three years in a row." · "Contract Creation, Templates, Editing, Notifications, Database, Integrations." · "Automates enterprise contract operations from creation through execution." · "Unicorn valuation, $160M revenue, four consecutive Gartner MQ Leader."</div>
+<div class="snippet-signal"><span class="tag tag-success">Signal: Analyst recognition, pre-sig features, market validation.</span></div>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+<!-- ===== 13 GROK ===== -->
+<div class="page" id="pg-grok">
+<div class="section">
+<div class="section-tag">Grok · Detailed Evidence</div>
+<h2 class="section-title">Grok: <span>Most Balanced — AI-Native First</span></h2>
+<p class="section-subtitle">The most favorable to Sirion of all five models. Leads with AI-native, lists pre-sig before post-sig. 12 sources cited — 10 from sirion.ai's newer pages.</p>
+
+<div class="alert alert-success" style="margin-bottom:24px">
+<div class="alert-label">Grok's Answer Summary</div>
+<p>"Sirion is best known for being a <strong>global leader in AI-native Contract Lifecycle Management (CLM) software</strong>. It provides an enterprise-grade platform that uses advanced artificial intelligence (including generative and agentic AI) to help large organizations <strong>store, create, negotiate, manage, analyze, and optimize contracts</strong> across their full lifecycle — from drafting and redlining to post-signature obligation tracking, performance monitoring, risk management, and compliance."</p>
+</div>
+
+<div class="model-card">
+<div class="model-header" onclick="toggleCollapse(this)">
+<button class="collapse-btn"><span class="arr">▶</span><strong>Grok Source Evidence — 12 Citations (click to expand)</strong></button>
+</div>
+<div class="collapse-body model-detail">
+
+<div class="snippet-row">
+<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px"><span class="tag tag-success">Balanced</span><span style="font-size:11px;color:var(--text-muted)">#1</span></div>
+<div class="snippet-url"><a href="https://www.sirion.ai/" target="_blank">https://www.sirion.ai/</a></div>
+<div class="snippet-text">"Sirion: The leader in AI Contract Management Software." · "Sirion agentic CLM powers contracting with enterprise-grade precision and trust at every step." · "Conversational AI for Enterprise Contracting"</div>
+<div class="snippet-signal"><span class="tag tag-success">Signal: AI-native, full-lifecycle, conversational framing.</span></div>
+</div>
+
+<div class="snippet-row">
+<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px"><span class="tag tag-success">Full-Lifecycle</span><span style="font-size:11px;color:var(--text-muted)">#2</span></div>
+<div class="snippet-url"><a href="https://www.sirion.ai/library/contract-management/what-is-contract-lifecycle-management/" target="_blank">https://www.sirion.ai/library/contract-management/what-is-contract-lifecycle-management/</a></div>
+<div class="snippet-text">"Sirion is the world's leading AI-native CLM platform, pioneering the application of Agentic AI to help enterprises transform the way they store, create, and manage contracts." · "The platform's extraction, conversational search, and AI-enhanced negotiation capabilities have revolutionized contracting."</div>
+<div class="snippet-signal"><span class="tag tag-success">Signal: Store/Create/Manage + negotiation = full-lifecycle.</span></div>
+</div>
+
+<div class="snippet-row">
+<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px"><span class="tag tag-warning">Mixed</span><span style="font-size:11px;color:var(--text-muted)">#3</span></div>
+<div class="snippet-url"><a href="https://www.sirion.ai/library/contract-ai/what-is-ai-contract-management/" target="_blank">https://www.sirion.ai/library/contract-ai/what-is-ai-contract-management/</a></div>
+<div class="snippet-text">"Sirion is the world's leading AI-native CLM platform." · "Known for its deep focus on post-signature intelligence and enterprise-grade automation... end-to-end CLM solution"</div>
+<div class="snippet-signal"><span class="tag tag-warning">Signal: Says "end-to-end" but also "deep focus on post-signature intelligence" — mixed from Sirion's own page.</span></div>
+</div>
+
+<div class="snippet-row">
+<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px"><span class="tag tag-success">Full-Lifecycle</span><span style="font-size:11px;color:var(--text-muted)">#4</span></div>
+<div class="snippet-url"><a href="https://marketplace.microsoft.com/en-us/product/web-apps/sirionlabsinc1658837034847.sirionlabs?tab=overview" target="_blank">https://marketplace.microsoft.com/en-us/product/web-apps/sirionlabsinc1658837034847.sirionlabs?tab=overview</a></div>
+<div class="snippet-text">"The Sirion CLM platform helps legal, procurement, sales, and finance teams across organizations transform how they store, create, and manage contracts at scale." · "Built on 15+ years of AI R&D, Sirion combines industry-leading AI agents with enterprise-grade functionality to optimize contract processes from drafting and negotiation to compliance tracking and performance management."</div>
+<div class="snippet-signal"><span class="tag tag-success">Signal: Explicitly pre-sig (drafting, negotiation) through post-sig (compliance, performance). Full lifecycle.</span></div>
+</div>
+
+<div class="snippet-row">
+<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px"><span class="tag tag-success">Balanced</span><span style="font-size:11px;color:var(--text-muted)">#5</span></div>
+<div class="snippet-url"><a href="https://www.sirion.ai/about-us/" target="_blank">https://www.sirion.ai/about-us/</a></div>
+<div class="snippet-text">"Sirion is the premier enterprise CLM platform, helping hundreds of household-name businesses around the world create and capture trillions of dollars worth of value."</div>
+<div class="snippet-signal"><span class="tag tag-success">Signal: "Create and capture" — both pre-sig (create) and post-sig (capture value).</span></div>
+</div>
+
+<div class="snippet-row">
+<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px"><span class="tag tag-success">Analyst</span><span style="font-size:11px;color:var(--text-muted)">#6–8</span></div>
+<div class="snippet-url"><a href="https://www.sirion.ai/library/reports/gartner-magic-quadrant-for-contract-lifecycle-management/" target="_blank">sirion.ai/gartner-mq</a> · <a href="https://www.sirion.ai/library/reports/forrester-wave-analyst-clm-report/" target="_blank">sirion.ai/forrester</a> · <a href="https://finance.yahoo.com/news/sirion-recognized-customers-choice-2025-184700832.html" target="_blank">finance.yahoo.com</a></div>
+<div class="snippet-text">"Leader in 2025 Gartner Magic Quadrant for fourth year in a row." · "Leader in 2025 Forrester Wave — highest scores possible in eight criteria." · "Customers' Choice in 2025 Gartner Voice of the Customer for third consecutive year."</div>
+<div class="snippet-signal"><span class="tag tag-success">Signal: Analyst recognition — full CLM leadership, not post-sig specific.</span></div>
+</div>
+
+<div class="snippet-row">
+<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px"><span class="tag tag-success">Scale</span><span style="font-size:11px;color:var(--text-muted)">#9–10</span></div>
+<div class="snippet-url"><a href="https://www.sirion.ai/press/spend-matters-fall-2024-solutionmap/" target="_blank">sirion.ai/press/spend-matters</a> · <a href="https://pulse2.com/sirion-kanti-prabha-profile/" target="_blank">pulse2.com</a></div>
+<div class="snippet-text">"BNY Mellon, DHL, KPMG and Vodafone trust Sirion to manage 7M+ contracts worth nearly $800B in 100+ languages." · "5 million contracts worth over $450 billion across 70+ countries."</div>
+<div class="snippet-signal"><span class="tag tag-success">Signal: Enterprise scale validation.</span></div>
+</div>
+
+<div class="snippet-row">
+<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px"><span class="tag tag-success">AI / Pre-Sig</span><span style="font-size:11px;color:var(--text-muted)">#11–12</span></div>
+<div class="snippet-url"><a href="https://www.sirion.ai/library/contract-ai/agentic-ai-in-contract-management/" target="_blank">sirion.ai/agentic-ai</a> · <a href="https://www.sirion.ai/library/contract-ai/asksirion-for-contracts/" target="_blank">sirion.ai/asksirion</a></div>
+<div class="snippet-text">"Sirion takes agentic AI from concept to reality through agentOS™ — autonomous, explainable, and continuously learning agents that collaborate across the entire contract lifecycle." · "AskSirion: Your AI Partner in Contract Management — the world's first AI-powered contract management agent."</div>
+<div class="snippet-signal"><span class="tag tag-success">Signal: Agentic AI across entire lifecycle. AskSirion as conversational interface — not post-sig specific.</span></div>
+</div>
+
+</div>
+</div>
+
+<div class="insight-box" style="margin-top:24px">
+<p><strong>Why Grok is most balanced:</strong> 10 of 12 sources are from sirion.ai's newer pages (homepage, platform, agentOS, AskSirion, about-us, press releases). These pages use the updated Store/Create/Manage framing and lead with AI-native positioning. Only 1 source (#3, the AI contract management page) contains "deep focus on post-signature" language. This proves: <strong>when AI models read Sirion's newer content, they produce balanced output. The problem is the older pages that other models find first.</strong></p>
+</div>
+</div>
+</div>
+
+</div><!-- end .main -->
+
+<script>
+function go(id, el) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.sidebar-nav-link').forEach(n => n.classList.remove('active'));
+  document.getElementById('pg-' + id).classList.add('active');
+  if (el) el.classList.add('active');
+  window.scrollTo(0, 0);
+  document.querySelector('.sidebar').classList.remove('open');
+}
+function toggleCollapse(header) {
+  var btn = header.querySelector('.collapse-btn');
+  var body = header.nextElementSibling;
+  btn.classList.toggle('open');
+  body.classList.toggle('open');
+}
+</script>
+</body>
+</html>
