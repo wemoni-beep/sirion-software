@@ -1,0 +1,1 @@
+import{e as o}from"./index-CVeD3JOW.js";const t=[["path",{d:"m7 7 10 10",key:"1fmybs"}],["path",{d:"M17 7v10H7",key:"6fjiku"}]],e=o("arrow-down-right",t);const r=[["path",{d:"M7 7h10v10",key:"1tivn9"}],["path",{d:"M7 17 17 7",key:"1vkiza"}]],i=o("arrow-up-right",r);export{i as A,e as a};

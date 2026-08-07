@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sirion — Gartner AI Perception Intelligence Report</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #F5F6F8;
+  --surface: #FFFFFF;
+  --surface2: #F0F1F4;
+  --border: #DFE1E6;
+  --text: #1A1D26;
+  --text-dim: #5E6278;
+  --accent: #2B5FC3;
+  --accent-dim: rgba(43,95,195,0.08);
+  --red: #C93B3B;
+  --red-dim: rgba(201,59,59,0.08);
+  --green: #1A7F42;
+  --green-dim: rgba(26,127,66,0.08);
+  --amber: #B8860B;
+  --amber-dim: rgba(184,134,11,0.08);
+  --purple: #7C3AED;
+  --purple-dim: rgba(124,58,237,0.08);
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+.container { max-width: 1100px; margin: 0 auto; padding: 40px 24px 80px; }
+
+/* Header */
+.header { text-align: center; margin-bottom: 56px; padding-top: 20px; }
+.header-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: var(--accent-dim);
+  padding: 6px 16px;
+  border-radius: 20px;
+  margin-bottom: 20px;
+}
+.header h1 {
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  margin-bottom: 8px;
+}
+.header p { color: var(--text-dim); font-size: 15px; }
+.header-meta {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  margin-top: 24px;
+  flex-wrap: wrap;
+}
+.meta-pill {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 13px;
+}
+.meta-pill strong { color: var(--text); }
+.meta-pill span { color: var(--text-dim); }
+
+/* Section */
+.section { margin-bottom: 48px; }
+.section-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 16px;
+}
+.section-title {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.section-desc {
+  color: var(--text-dim);
+  font-size: 14px;
+  margin-bottom: 24px;
+  max-width: 700px;
+}
+
+/* Verdict Cards */
+.verdict-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 16px;
+}
+@media (max-width: 768px) { .verdict-grid { grid-template-columns: 1fr; } }
+
+.verdict-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.2s;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+.verdict-card:hover { border-color: var(--accent); }
+.verdict-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+}
+.verdict-card.claude::before { background: var(--amber); }
+.verdict-card.chatgpt::before { background: var(--green); }
+.verdict-card.gemini::before { background: var(--accent); }
+
+.vc-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; }
+.vc-model { font-size: 16px; font-weight: 700; }
+.vc-badge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 6px;
+}
+.badge-amber { background: var(--amber-dim); color: var(--amber); }
+.badge-green { background: var(--green-dim); color: var(--green); }
+.badge-blue { background: var(--accent-dim); color: var(--accent); }
+.badge-red { background: var(--red-dim); color: var(--red); }
+.badge-purple { background: var(--purple-dim); color: var(--purple); }
+
+.vc-verdict { font-size: 20px; font-weight: 700; margin-bottom: 6px; }
+.vc-sub { color: var(--text-dim); font-size: 13px; margin-bottom: 16px; }
+
+.vc-stats { display: flex; gap: 16px; }
+.vc-stat { flex: 1; }
+.vc-stat-num { font-family: 'JetBrains Mono', monospace; font-size: 22px; font-weight: 700; color: var(--accent); }
+.vc-stat-label { font-size: 11px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px; }
+
+/* Divergence callout */
+.callout {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--red);
+  border-radius: 8px;
+  padding: 20px 24px;
+  margin-bottom: 40px;
+}
+.callout-title { font-weight: 700; font-size: 15px; margin-bottom: 6px; color: var(--red); }
+.callout p { font-size: 14px; color: var(--text-dim); }
+
+/* Detail panels */
+.detail-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  margin-bottom: 16px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+.detail-toggle {
+  width: 100%;
+  background: none;
+  border: none;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 18px 24px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-align: left;
+}
+.detail-toggle:hover { background: var(--surface2); }
+.detail-toggle .arrow {
+  transition: transform 0.2s;
+  color: var(--text-dim);
+  font-size: 18px;
+}
+.detail-panel.open .arrow { transform: rotate(180deg); }
+.detail-body {
+  display: none;
+  padding: 0 24px 24px;
+}
+.detail-panel.open .detail-body { display: block; }
+
+/* Evidence table */
+.ev-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.ev-table th {
+  text-align: left;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-dim);
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+}
+.ev-table td {
+  padding: 12px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+  color: var(--text-dim);
+}
+.ev-table tr:last-child td { border-bottom: none; }
+.ev-table .snippet { color: var(--text); font-style: italic; }
+.ev-table .signal-tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+.tag-pre { background: var(--green-dim); color: var(--green); }
+.tag-post { background: var(--red-dim); color: var(--red); }
+.tag-full { background: var(--accent-dim); color: var(--accent); }
+.tag-neutral { background: rgba(139,144,160,0.15); color: var(--text-dim); }
+
+/* Source URL */
+.source-url {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--accent);
+  word-break: break-all;
+}
+
+/* Comparison table */
+.comp-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.comp-table th {
+  text-align: left;
+  padding: 12px 16px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-dim);
+  background: var(--surface2);
+  border-bottom: 1px solid var(--border);
+}
+.comp-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+.comp-table tr:last-child td { border-bottom: none; }
+.comp-table .yes { color: var(--green); font-weight: 600; }
+.comp-table .no { color: var(--red); font-weight: 600; }
+.comp-table .partial { color: var(--amber); font-weight: 600; }
+
+/* Action items */
+.action-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+@media (max-width: 768px) { .action-grid { grid-template-columns: 1fr; } }
+
+.action-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+.action-card .priority {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+.action-card h4 { font-size: 15px; margin-bottom: 8px; }
+.action-card p { font-size: 13px; color: var(--text-dim); }
+.priority-critical { color: var(--red); }
+.priority-high { color: var(--amber); }
+.priority-medium { color: var(--accent); }
+.priority-low { color: var(--text-dim); }
+
+/* Funnel visual */
+.funnel { margin: 24px 0; }
+.funnel-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 8px;
+}
+.funnel-bar {
+  height: 36px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  font-size: 13px;
+  font-weight: 600;
+  transition: width 0.6s ease;
+}
+.funnel-label { font-size: 13px; color: var(--text-dim); min-width: 160px; text-align: right; }
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding-top: 40px;
+  border-top: 1px solid var(--border);
+  margin-top: 48px;
+}
+.footer p { color: var(--text-dim); font-size: 12px; }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-badge">AI Perception Intelligence</div>
+    <h1>Gartner Review Crawlability Report</h1>
+    <p>What AI models can actually see from Sirion's Gartner Peer Insights page — and what it means for perception</p>
+    <div class="header-meta">
+      <div class="meta-pill"><span>Platform:</span> <strong>Gartner Peer Insights</strong></div>
+      <div class="meta-pill"><span>Total Reviews:</span> <strong>~260</strong></div>
+      <div class="meta-pill"><span>Rating:</span> <strong>4.9 / 5.0</strong></div>
+      <div class="meta-pill"><span>Report Date:</span> <strong>April 8, 2026</strong></div>
+    </div>
+  </div>
+
+  <!-- THE PROBLEM -->
+  <div class="section">
+    <div class="section-label">The Core Finding</div>
+    <div class="section-title">98.5% of Sirion's Gartner reviews are invisible to AI</div>
+    <div class="section-desc">Gartner blocks direct crawling (403), uses JavaScript pagination, and gates full reviews behind login. AI models form Sirion's perception from 4-5 snippets out of 260 reviews.</div>
+
+    <div class="funnel">
+      <div class="funnel-row">
+        <div class="funnel-label">Total reviews</div>
+        <div class="funnel-bar" style="width: 100%; background: var(--accent-dim); color: var(--accent);">260 reviews</div>
+      </div>
+      <div class="funnel-row">
+        <div class="funnel-label">Indexed by Google</div>
+        <div class="funnel-bar" style="width: 12%; background: var(--amber-dim); color: var(--amber);">~5 snippets</div>
+      </div>
+      <div class="funnel-row">
+        <div class="funnel-label">In AI training data</div>
+        <div class="funnel-bar" style="width: 6%; background: var(--red-dim); color: var(--red);">3–5 snippets</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- VERDICT CARDS -->
+  <div class="section">
+    <div class="section-label">AI Perception Verdicts</div>
+    <div class="section-title">Three AIs, three different reads</div>
+    <div class="section-desc">Each model accessed different snippet sets and weighted different content layers, producing divergent positioning signals.</div>
+
+    <div class="verdict-grid">
+      <!-- Claude -->
+      <div class="verdict-card claude">
+        <div class="vc-header">
+          <div class="vc-model">Claude</div>
+          <div class="vc-badge badge-amber">Evidence-Thin</div>
+        </div>
+        <div class="vc-verdict">Full Lifecycle</div>
+        <div class="vc-sub">But evidence too generic to anchor either direction. Snippets show consolidation praise, not lifecycle-specific features.</div>
+        <div class="vc-stats">
+          <div class="vc-stat">
+            <div class="vc-stat-num">4</div>
+            <div class="vc-stat-label">Snippets pulled</div>
+          </div>
+          <div class="vc-stat">
+            <div class="vc-stat-num">1.5%</div>
+            <div class="vc-stat-label">Review coverage</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ChatGPT -->
+      <div class="verdict-card chatgpt">
+        <div class="vc-header">
+          <div class="vc-model">ChatGPT</div>
+          <div class="vc-badge badge-green">Pre-Sig Tilt</div>
+        </div>
+        <div class="vc-verdict">Full Lifecycle</div>
+        <div class="vc-sub">Strongest evidence around drafting, approvals, e-sign, and search. Product description carries the most weight.</div>
+        <div class="vc-stats">
+          <div class="vc-stat">
+            <div class="vc-stat-num">3</div>
+            <div class="vc-stat-label">Review cards</div>
+          </div>
+          <div class="vc-stat">
+            <div class="vc-stat-num">1.2%</div>
+            <div class="vc-stat-label">Review coverage</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Gemini -->
+      <div class="verdict-card gemini">
+        <div class="vc-header">
+          <div class="vc-model">Gemini</div>
+          <div class="vc-badge badge-blue">Post-Sig Tilt</div>
+        </div>
+        <div class="vc-verdict">Full Lifecycle</div>
+        <div class="vc-sub">Ranked #1 across all use cases but calls post-signature obligation management the "gold standard" reputation.</div>
+        <div class="vc-stats">
+          <div class="vc-stat">
+            <div class="vc-stat-num">5</div>
+            <div class="vc-stat-label">Snippets pulled</div>
+          </div>
+          <div class="vc-stat">
+            <div class="vc-stat-num">1.9%</div>
+            <div class="vc-stat-label">Review coverage</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Divergence callout -->
+    <div class="callout">
+      <div class="callout-title">⚠ Why are they diverging?</div>
+      <p><strong>ChatGPT</strong> weighted the <em>product description</em> (vendor-supplied text on Gartner listing) — which names autodraft, conditional questioning, Adobe E-sign → pre-signature features.<br>
+      <strong>Gemini</strong> weighted <em>market scores + broader reputation</em> — pulling from Gartner's category data and cross-referencing Sirion's known strength in obligation tracking → post-signature.<br>
+      <strong>Claude</strong> got blocked from the direct page (403) and relied on search-indexed snippets + alternatives pages — which are generic praise with no strong lifecycle signal either way.<br><br>
+      <strong>Root cause:</strong> With only 1.5% of reviews visible, each AI's verdict depends on <em>which thin slice</em> it happened to access. The perception is unstable and easily shifted by a single snippet change.</p>
+    </div>
+  </div>
+
+  <!-- DETAIL DRILL-DOWNS -->
+  <div class="section">
+    <div class="section-label">Evidence Drill-Down</div>
+    <div class="section-title">Exactly what each AI crawled</div>
+    <div class="section-desc">Click to expand. Every snippet below is the complete text available to that AI model from Gartner — this is the full evidence base forming Sirion's perception.</div>
+
+    <!-- CLAUDE DETAIL -->
+    <div class="detail-panel" id="panel-claude">
+      <button class="detail-toggle" onclick="togglePanel('panel-claude')">
+        <span>🟡 Claude — 4 snippets via search index + alternatives pages</span>
+        <span class="arrow">▼</span>
+      </button>
+      <div class="detail-body">
+        <p style="font-size:13px; color:var(--text-dim); margin-bottom:16px;"><strong>Access method:</strong> Direct URL returned 403. Snippets retrieved from Google search index cache and Gartner competitor "Alternatives" comparison pages (Ironclad, Gatekeeper, Legisway, Agiloft alternatives pages all surface the same Sirion review).</p>
+        <table class="ev-table">
+          <tr><th>#</th><th>Source URL</th><th>Snippet</th><th>Signal</th></tr>
+          <tr>
+            <td>1</td>
+            <td><span class="source-url">gartner.com/reviews/product/sirion-agentic-clm-platform (search index)</span></td>
+            <td class="snippet">"Sirion CLM platform is very robust and highly configurable. So it supports every even crazy business requirement. It is more that opposite as the tool is extremely flexible, we have to limit business to not be too much creative..."</td>
+            <td><span class="signal-tag tag-full">Full Lifecycle</span></td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td><span class="source-url">gartner.com/reviews/product/sirion-agentic-clm-platform (search index)<br>+ 4 alternatives pages</span></td>
+            <td class="snippet">"Overall, this system is much better than the previous systems we were using and it combined three systems into one for us! Overall I would like a little more flexibility as far as customization... Sirion does always try to find a workaround or update in a later cycle to accommodate our needs. The reps have been amazing partners to work with."</td>
+            <td><span class="signal-tag tag-full">Full Lifecycle</span></td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td><span class="source-url">gartner.com/reviews/product/sirion-agentic-clm-platform (search index)</span></td>
+            <td class="snippet">"We've been using Sirion CLM to centralize and manage our client contracts, and it's been solid step forward. Day to day, it gives us better visibility across request and reviews..."</td>
+            <td><span class="signal-tag tag-post">Post-Sig</span></td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td><span class="source-url">gartner.com/reviews/product/sirion-agentic-clm-platform (search index)</span></td>
+            <td class="snippet">"The autodraft feature is amazing and extremely helpful as many of our contracting templates are quite long and also require data privacy terms... The flexibility of conditional questioning and auto-draft saves a huge amount of time..."</td>
+            <td><span class="signal-tag tag-pre">Pre-Sig</span></td>
+          </tr>
+        </table>
+        <div style="margin-top:16px; padding:12px 16px; background:var(--surface2); border-radius:8px; font-size:13px;">
+          <strong>Claude verdict logic:</strong> 2 Full Lifecycle (generic consolidation praise) + 1 Pre-Sig (autodraft) + 1 Post-Sig (visibility/manage). No dominant direction → "Full Lifecycle but evidence-thin."
+          <br><strong>Key weakness:</strong> Snippet #2 appears on 4+ competitor alternatives pages — it's the single most repeated Sirion text in AI training data, and it says nothing about lifecycle positioning.
+        </div>
+      </div>
+    </div>
+
+    <!-- CHATGPT DETAIL -->
+    <div class="detail-panel" id="panel-chatgpt">
+      <button class="detail-toggle" onclick="togglePanel('panel-chatgpt')">
+        <span>🟢 ChatGPT — 3 review cards + likes/dislikes via HTML parse</span>
+        <span class="arrow">▼</span>
+      </button>
+      <div class="detail-body">
+        <p style="font-size:13px; color:var(--text-dim); margin-bottom:16px;"><strong>Access method:</strong> Parsed public page HTML. Got first-page review cards + likes/dislikes snippets. Also read the full product description (vendor-supplied Gartner listing text).</p>
+        <table class="ev-table">
+          <tr><th>#</th><th>Content Type</th><th>Text</th><th>Signal</th></tr>
+          <tr>
+            <td>1</td>
+            <td>Review card</td>
+            <td class="snippet">"Autodraft and Search Features Improve Operations, But Admin Limitations Remain a Concern" — Operations Manager, Media, $1B-$10B, 5.0 stars, Jan 2026. Body: same as Claude snippet #2 (combined three systems into one).</td>
+            <td><span class="signal-tag tag-full">Full Lifecycle</span></td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Review card</td>
+            <td class="snippet">"Responsive team but many challenges" — Legal & Compliance Associate, Banking, $10B-$30B, 3.0 stars, Jan 2026. Body: placeholder only.</td>
+            <td><span class="signal-tag tag-neutral">Neutral</span></td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>Likes snippet</td>
+            <td class="snippet">"Autodraft is very helpful for long templates and privacy terms, conditional questioning saves time, Adobe E-sign speeds sending, OCR search helps find contracts even when suppliers changed."</td>
+            <td><span class="signal-tag tag-pre">Pre-Sig</span></td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>Dislikes snippet</td>
+            <td class="snippet">"Some features become inconsistent after updates, fixes can take time, mass updates plus record-level adjustments are difficult and time-consuming."</td>
+            <td><span class="signal-tag tag-neutral">Neutral</span></td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>Product description</td>
+            <td class="snippet">Gartner listing describes three phases: Store (Extraction agent), Create (Draft/Issue Detection/Redline agents), Manage (Obligation/Invoice agents). Covers pre-sig drafting + playbook + redlining AND post-sig obligations + compliance + invoice reconciliation.</td>
+            <td><span class="signal-tag tag-full">Full Lifecycle</span></td>
+          </tr>
+        </table>
+        <div style="margin-top:16px; padding:12px 16px; background:var(--surface2); border-radius:8px; font-size:13px;">
+          <strong>ChatGPT verdict logic:</strong> Product description says full lifecycle. But the <em>user reviews</em> only mention pre-sig features (autodraft, e-sign, search). Zero post-sig features mentioned in actual user voice. → "Full Lifecycle by description, but strongest proof is pre-signature."
+          <br><strong>Key insight:</strong> ChatGPT gave more weight to the product description than the review snippets — the vendor-controlled text is doing the heavy lifting here.
+        </div>
+      </div>
+    </div>
+
+    <!-- GEMINI DETAIL -->
+    <div class="detail-panel" id="panel-gemini">
+      <button class="detail-toggle" onclick="togglePanel('panel-gemini')">
+        <span>🔵 Gemini — 5 snippets via Google's own search index</span>
+        <span class="arrow">▼</span>
+      </button>
+      <div class="detail-body">
+        <p style="font-size:13px; color:var(--text-dim); margin-bottom:16px;"><strong>Access method:</strong> Google's own search index (Gemini has privileged access to Google's crawl data). Pulled 5 review snippets with full metadata. Also referenced Gartner market scores.</p>
+        <table class="ev-table">
+          <tr><th>#</th><th>Review Title</th><th>Reviewer</th><th>Snippet</th><th>Signal</th></tr>
+          <tr>
+            <td>1</td>
+            <td>Autodraft and Search Features Improve Operations...</td>
+            <td>Operations Mgr, Media, $1B-$10B, 5.0★</td>
+            <td class="snippet">"Overall, this system is much better than the previous systems we were using... the reps have been amazing partners."</td>
+            <td><span class="signal-tag tag-full">Full Lifecycle</span></td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Technological Support Enables Rapid Adoption...</td>
+            <td>Mgmt, Business Consulting, $10B-$30B, 5.0★</td>
+            <td class="snippet">"The technological support, implementation and service is exceptional, with a quick service level and follow up."</td>
+            <td><span class="signal-tag tag-neutral">Neutral</span></td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>Innovative Sirion Tool Becomes Integral Resource...</td>
+            <td>Project & Portfolio Mgmt, IT Services, $50M-$250M, 5.0★</td>
+            <td class="snippet">"The Sirion Implementation Team was very pro-active and reactive to our requests during the implementation phase."</td>
+            <td><span class="signal-tag tag-neutral">Neutral</span></td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>Sirion CLM: Robust Workflows and Insights...</td>
+            <td>IT, Government, 5k-50k emp, 5.0★</td>
+            <td class="snippet">"My experience with Sirion CLM has been positive. It provides good visibility into contracts, structure, and workflows."</td>
+            <td><span class="signal-tag tag-post">Post-Sig</span></td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>AI-Driven Clause Deviation Highlighting...</td>
+            <td>Finance, Banking, $10B-$30B, 4.0★</td>
+            <td class="snippet">"As a user and administrator, I can easily manage and track the in-negotiation requests as well as executed documents."</td>
+            <td><span class="signal-tag tag-full">Full Lifecycle</span></td>
+          </tr>
+        </table>
+        <div style="margin-top:16px; padding:12px 16px; background:var(--surface2); border-radius:8px; font-size:13px;">
+          <strong>Gemini verdict logic:</strong> Snippets show full lifecycle identity. But Gemini also pulled Gartner market scores (Pre-Sig: 4.19, Post-Sig: 4.22, Full: 4.20) and cross-referenced Sirion's known market reputation → concluded post-sig is the "gold standard" strength.
+          <br><strong>Key insight:</strong> Gemini is the only AI that referenced <em>quantitative Gartner scores</em> alongside snippets. This is likely because Google has deeper crawl access to Gartner's structured data. The post-sig tilt comes from reputation data, not from the review text itself.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PLATFORM COMPARISON -->
+  <div class="section">
+    <div class="section-label">Platform Crawlability</div>
+    <div class="section-title">Why Gartner is the wrong battlefield</div>
+    <div class="section-desc">Gartner's architecture makes it nearly impossible for AI to access review content. Compare with platforms where reviews are fully public.</div>
+
+    <div style="background:var(--surface); border:1px solid var(--border); border-radius:12px; overflow:hidden;">
+      <table class="comp-table">
+        <tr>
+          <th>Factor</th>
+          <th>Gartner</th>
+          <th>G2</th>
+          <th>TrustRadius</th>
+        </tr>
+        <tr>
+          <td>Direct URL crawlable</td>
+          <td class="no">✗ 403 blocked</td>
+          <td class="yes">✓ Yes</td>
+          <td class="yes">✓ Yes</td>
+        </tr>
+        <tr>
+          <td>Full review text public</td>
+          <td class="no">✗ Login required</td>
+          <td class="yes">✓ Fully public</td>
+          <td class="yes">✓ Fully public</td>
+        </tr>
+        <tr>
+          <td>Each review has unique URL</td>
+          <td class="no">✗ JS pagination</td>
+          <td class="yes">✓ Static URLs</td>
+          <td class="yes">✓ Static URLs</td>
+        </tr>
+        <tr>
+          <td>Snippets indexed by Google</td>
+          <td class="partial">~5 per product</td>
+          <td class="yes">All reviews</td>
+          <td class="yes">All reviews</td>
+        </tr>
+        <tr>
+          <td>AI training data inclusion</td>
+          <td class="no">&lt;2%</td>
+          <td class="yes">80–100%</td>
+          <td class="yes">80–100%</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;">Perception weight for LLMs</td>
+          <td class="no" style="font-size:15px;">Very Low</td>
+          <td class="yes" style="font-size:15px;">High</td>
+          <td class="yes" style="font-size:15px;">High</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- ACTION ITEMS -->
+  <div class="section">
+    <div class="section-label">Strategic Actions</div>
+    <div class="section-title">What Sirion can actually do about this</div>
+    <div class="section-desc">Given that 98.5% of Gartner reviews are invisible to AI, where should effort go?</div>
+
+    <div class="action-grid">
+      <div class="action-card">
+        <div class="priority priority-critical">Critical — Immediate</div>
+        <h4>Prioritize G2 + TrustRadius over Gartner for AI perception</h4>
+        <p>Every review on G2/TrustRadius is fully crawlable. Solicit reviews that explicitly mention pre-signature capabilities (drafting, redlining, playbook, negotiation). These platforms are 50-100x more impactful for AI perception than Gartner.</p>
+      </div>
+      <div class="action-card">
+        <div class="priority priority-critical">Critical — Immediate</div>
+        <h4>Control the Gartner product description</h4>
+        <p>The vendor-supplied product description is the single most-read text by all 3 AIs. ChatGPT formed its entire verdict from it. Ensure it leads with full-lifecycle language and balances pre-sig and post-sig feature density equally.</p>
+      </div>
+      <div class="action-card">
+        <div class="priority priority-high">High — 30 Days</div>
+        <h4>Influence which reviews appear on page 1</h4>
+        <p>Only the first ~5 reviews are ever crawlable. Gartner sorts by recency by default. Encourage recent reviewers who use pre-signature features (drafting, authoring, playbook) to leave reviews — they'll naturally appear on page 1 and enter the AI-visible window.</p>
+      </div>
+      <div class="action-card">
+        <div class="priority priority-high">High — 30 Days</div>
+        <h4>Monitor the "Alternatives" page echo effect</h4>
+        <p>Sirion's review snippet #2 (consolidation/customization) appears on 4+ competitor alternatives pages. This is the most amplified Sirion text in AI data. If this snippet rotates to a new review, perception shifts. Track monthly.</p>
+      </div>
+      <div class="action-card">
+        <div class="priority priority-medium">Medium — 60 Days</div>
+        <h4>Gartner "Likes" snippet optimization</h4>
+        <p>The public "Likes" snippet is one of ChatGPT's key evidence sources. Currently mentions autodraft + e-sign (pre-sig). If this rotates to obligation/compliance language, ChatGPT's verdict flips. Monitor and influence via review solicitation timing.</p>
+      </div>
+      <div class="action-card">
+        <div class="priority priority-medium">Medium — 60 Days</div>
+        <h4>Leverage Gemini's Google index advantage</h4>
+        <p>Gemini pulls the most data (5 snippets) because Google owns the index. Ensure Sirion's Gartner page metadata, structured data, and category tags emphasize full-lifecycle positioning. Google's structured data extraction feeds Gemini directly.</p>
+      </div>
+      <div class="action-card">
+        <div class="priority priority-low">Low — Ongoing</div>
+        <h4>Don't over-invest in Gartner for AI perception</h4>
+        <p>Gartner matters for human buyers, analyst relations, and Magic Quadrant positioning. But for AI perception specifically, the 403 block + JS pagination + login gate make it a low-ROI channel. Allocate AI perception budget to open platforms.</p>
+      </div>
+      <div class="action-card">
+        <div class="priority priority-low">Low — Ongoing</div>
+        <h4>Track snippet rotation monthly</h4>
+        <p>The 3-5 visible snippets rotate as new reviews come in. A single new review mentioning "obligation tracking" or "compliance monitoring" could shift Claude/ChatGPT's verdict. Set up monthly crawl monitoring to catch these shifts.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <p>Sirion AI Perception Intelligence — Gartner Review Crawlability Analysis</p>
+    <p style="margin-top:4px;">Prepared by Xtrusio | April 8, 2026 | Confidential</p>
+  </div>
+
+</div>
+
+<script>
+function togglePanel(id) {
+  const panel = document.getElementById(id);
+  panel.classList.toggle('open');
+}
+</script>
+</body>
+</html>
