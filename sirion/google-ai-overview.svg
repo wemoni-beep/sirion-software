@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+  <defs>
+    <linearGradient id="gaoOverview" x1="3" y1="3" x2="21" y2="21" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#4285F4"/>
+      <stop offset="0.35" stop-color="#9B72CB"/>
+      <stop offset="0.7" stop-color="#EA4335"/>
+      <stop offset="1" stop-color="#FBBC05"/>
+    </linearGradient>
+  </defs>
+  <!-- Google "AI" spark (Gemini-style 4-point star) -->
+  <path d="M12 1.25c.62 5.02 3.11 7.5 8.13 8.13-5.02.62-7.51 3.11-8.13 8.12-.62-5.01-3.11-7.5-8.13-8.12 5.02-.63 7.51-3.11 8.13-8.13Z" transform="translate(0 1.5)" fill="url(#gaoOverview)"/>
+  <circle cx="19" cy="5" r="2.1" fill="#34A853"/>
+</svg>
